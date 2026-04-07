@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, ArrowRight, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Phone, Mail, MapPin, ArrowRight, Facebook, Linkedin } from 'lucide-react';
 import { COMPANY_INFO } from '@/src/constants';
+import { BrandLogo } from '@/src/components/layout/BrandLogo';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,24 +12,28 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Column */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-8 bg-gradient-to-br from-jrs-green-start to-jrs-green-end rounded-md flex items-center justify-center text-white font-display font-bold text-lg">
-                JRS
-              </div>
-              <span className="font-display font-bold text-xl text-white">
-                JRS FERROS
-              </span>
-            </div>
+            <BrandLogo
+              imageClassName="h-14 w-14 rounded-md"
+              labelClassName="text-white"
+              taglineClassName="text-slate-500"
+            />
             <p className="text-sm text-slate-400 leading-relaxed">
-              Tradição e qualidade no comércio de ferro e aço. 
-              Soluções completas para construção civil e serralharia.
+              {COMPANY_INFO.tagline}
             </p>
-            <div className="flex gap-4 pt-2">
-              {/* Social placeholders */}
-              <a href="#" className="hover:text-jrs-green-start transition-colors"><Facebook className="h-5 w-5" /></a>
-              <a href="#" className="hover:text-jrs-green-start transition-colors"><Instagram className="h-5 w-5" /></a>
-              <a href="#" className="hover:text-jrs-green-start transition-colors"><Linkedin className="h-5 w-5" /></a>
-            </div>
+            {(COMPANY_INFO.facebookUrl || COMPANY_INFO.linkedinUrl) && (
+              <div className="flex gap-4 pt-2">
+                {COMPANY_INFO.facebookUrl && (
+                  <a href={COMPANY_INFO.facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:text-jrs-green-start transition-colors" aria-label="Facebook">
+                    <Facebook className="h-5 w-5" />
+                  </a>
+                )}
+                {COMPANY_INFO.linkedinUrl && (
+                  <a href={COMPANY_INFO.linkedinUrl} target="_blank" rel="noopener noreferrer" className="hover:text-jrs-green-start transition-colors" aria-label="LinkedIn">
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Quick Links */}
@@ -73,7 +78,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-jrs-green-start shrink-0 mt-0.5" />
-                <span className="text-sm">{COMPANY_INFO.address}</span>
+                <span className="text-sm">{COMPANY_INFO.addressDisplay}</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-jrs-green-start shrink-0" />

@@ -16,7 +16,7 @@ const historyTimeline = [
     year: '1975-1979',
     title: 'A Transição',
     subtitle: 'Siderurgia e a Expansão',
-    description: 'O ano de 1975 marcou um ponto de viragem decisivo com a entrada no mercado da siderurgia nacional e no comércio de produtos siderúrgicos. Com esta expansão, surgiram as primeiras instalações dedicadas: um pequeno armazém que simbolizava o crescimento da empresa. O sucesso tornou este espaço insuficiente. Em 1979, a empresa deu o passo definitivo para as suas atuais instalações situadas na Estrada Nacional nº1 em Lourosa.',
+    description: 'O ano de 1975 marcou um ponto de viragem decisivo com a entrada no mercado da siderurgia nacional e no comércio de produtos siderúrgicos. Com esta expansão, surgiram as primeiras instalações dedicadas: um pequeno armazém que simbolizava o crescimento da empresa. O sucesso rapidamente tornou este espaço insuficiente. Em 1979, a empresa deu o passo definitivo para as suas atuais instalações situadas na Estrada Nacional nº1 em Lourosa.',
     icon: Factory,
     color: 'from-slate-400 to-slate-600',
     alignRight: true

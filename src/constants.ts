@@ -1,9 +1,14 @@
 export const COMPANY_INFO = {
   name: "JRS Ferros",
   address: "Av. Principal 183, 4535-014 Lourosa, Portugal",
+  addressDisplay: "Av. Principal 183, 4535-014 Lourosa, Portugal",
   phoneWarehouse: "+351 22 764 3124",
   mobileWarehouse: "+351 917 322 797",
   email: "geral@jrsferros.pt",
+  tagline: "Qualidade com Tradição",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=JRS%20Ferros%20Av.%20Principal%20183%204535-014%20Lourosa%20Portugal",
+  facebookUrl: "",
+  linkedinUrl: "",
   nif: "",
 };
 

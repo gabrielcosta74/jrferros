@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Truck, ShieldCheck, Package, Phone, TrendingUp, Building2, Hammer, MapPin } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, Package, Phone, TrendingUp, Building2, Hammer, MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent } from '@/src/components/ui/card';
-import { CATALOG } from '@/src/constants';
+import { AboutCompany } from '@/src/components/about/AboutCompany';
+import { CATALOG, COMPANY_INFO } from '@/src/constants';
 import { HeroSlider } from '@/src/components/ui/hero-slider';
 import { ImageGallery } from '@/src/components/ui/image-gallery';
 
@@ -63,7 +64,7 @@ export function Home() {
 
             <motion.p variants={fadeUp} className="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
               O seu parceiro de confiança no comércio de ferro.
-              Stock permanente, cortes à medida e entrega rápida na zona do Grande Porto.
+              Stock permanente e entrega rápida na zona do Grande Porto e em Aveiro.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 pt-4 justify-center w-full">
@@ -121,6 +122,8 @@ export function Home() {
         </div>
       </section>
 
+      <AboutCompany />
+
 
 
       {/* Products Section */}
@@ -130,7 +133,7 @@ export function Home() {
             <div className="space-y-2">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-jrs-black">Os Nossos Produtos</h2>
               <p className="text-slate-600 max-w-xl">
-                Conheça toda a nossa gama de materiais de aço, disponíveis nas principais medidas do mercado.
+                Conheça toda a nossa gama de materiais.
               </p>
             </div>
             <Button variant="outline" asChild className="hidden md:flex group border-slate-300 hover:border-jrs-green-start hover:text-jrs-green-start">
@@ -149,10 +152,15 @@ export function Home() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {CATALOG.map((category) => {
-              const totalRefs = category.subcategories.reduce((a, s) => a + s.sizes.length, 0);
               return (
               <motion.div key={category.id} variants={fadeUp}>
-                <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl">
+                <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl relative">
+                  <Link
+                    to="/produtos"
+                    className="absolute inset-0 z-10"
+                    aria-label={`Ver ${category.name}`}
+                    onClick={() => { sessionStorage.setItem('catalog-category', category.id); }}
+                  />
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img
                       src={category.image}
@@ -166,20 +174,17 @@ export function Home() {
                     </div>
                   </div>
                   <CardContent className="p-6 flex-1 flex flex-col relative">
-                    <div className="absolute -top-5 right-6 h-10 w-10 bg-jrs-green-start text-white rounded-full flex items-center justify-center shadow-lg transform translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="absolute -top-5 right-6 h-10 w-10 bg-jrs-green-start text-white rounded-full flex items-center justify-center shadow-lg transform translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none">
                       <ArrowRight className="h-4 w-4" />
                     </div>
                     <h3 className="text-xl font-display font-bold mb-2 group-hover:text-jrs-green-start transition-colors duration-300 pr-6">{category.name}</h3>
                     <p className="text-slate-600 text-sm line-clamp-2 mb-4 flex-1">{category.description}</p>
-                    <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-1.5 mb-4 items-center">
+                    <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-1.5 items-center">
                         <span className="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">
-                          +{totalRefs} referências
+                          {category.subcategories.length} tipos
                         </span>
                         <span className="text-xs text-slate-400">em stock</span>
                     </div>
-                    <Button size="sm" variant="outline" className="w-full mt-auto text-slate-600 border-slate-200 group-hover:border-jrs-green-start/30" onClick={() => { sessionStorage.setItem('catalog-category', category.id); }} asChild>
-                      <Link to="/produtos">Explorar {category.name}</Link>
-                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -262,7 +267,7 @@ export function Home() {
                 Visite as nossas instalações
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed max-w-lg">
-                O nosso armazém principal está estrategicamente localizado em Lourosa, com fácil acesso para carga pesada, garantindo resposta rápida e conveniente para toda a região.
+                O nosso armazém está estrategicamente localizado na Nacional nº1, em Lourosa, com fácil acesso para carga pesada, à entrada da Auto-estrada, garantindo resposta rápida e conveniente para toda a região.
               </p>
               
               <div className="flex items-start gap-4 pt-4">
@@ -272,9 +277,7 @@ export function Home() {
                 <div>
                   <h4 className="font-bold text-jrs-black text-xl mb-1">A Nossa Morada</h4>
                   <p className="text-slate-600 text-lg leading-relaxed">
-                    Av. Principal 183<br />
-                    4535-014 Lourosa<br />
-                    Portugal
+                    {COMPANY_INFO.addressDisplay}
                   </p>
                 </div>
               </div>
@@ -329,7 +332,7 @@ export function Home() {
               </Button>
             </div>
             <p className="text-sm text-slate-500 pt-4">
-              Resposta em menos de 24h úteis para pedidos via email.
+              Resposta em menos de 1 dia útil para pedidos via email.
             </p>
           </div>
         </div>

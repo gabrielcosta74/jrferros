@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Search, ChevronRight, ArrowLeft, Package } from 'lucide-react';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
@@ -23,7 +23,6 @@ const stagger = {
 
 // ── Category overview card ────────────────────────────────────────────────────
 function CategoryCard({ category, onClick }: { category: ProductCategory; onClick: () => void }) {
-  const totalRefs = category.subcategories.reduce((a, s) => a + s.sizes.length, 0);
   return (
     <motion.button
       variants={fadeUp}
@@ -42,7 +41,7 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
 
       <div className="absolute bottom-0 left-0 right-0 p-5">
         <p className="text-white/55 text-[10px] font-bold uppercase tracking-widest mb-1">
-          {category.subcategories.length} tipos · {totalRefs}+ referências
+          {category.subcategories.length} tipos disponíveis
         </p>
         <h3 className="text-white text-xl font-display font-bold group-hover:text-jrs-green-start transition-colors duration-300">
           {category.name}
@@ -262,6 +261,18 @@ export function Catalog() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    const storedCategoryId = sessionStorage.getItem('catalog-category');
+    if (!storedCategoryId) return;
+
+    const categoryExists = CATALOG.some(category => category.id === storedCategoryId);
+    if (categoryExists) {
+      setSelectedCategoryId(storedCategoryId);
+    }
+
+    sessionStorage.removeItem('catalog-category');
+  }, []);
 
   const selectedCategory = CATALOG.find(c => c.id === selectedCategoryId) ?? null;
   const isSearching = searchTerm.trim().length > 0;

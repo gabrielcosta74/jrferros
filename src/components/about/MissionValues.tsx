@@ -66,7 +66,7 @@ export function MissionValues() {
           <span className="text-sm tracking-widest uppercase font-semibold text-jrs-green-start mb-8 block">A Nossa Missão</span>
           <RevealText text="Servir cada cliente com a mais vasta gama de soluções siderúrgicas do mercado." />
           <p className="mt-8 text-xl text-slate-500 font-light max-w-3xl mx-auto">
-            Olhamos para o futuro com a ambição de continuar a ser uma referência no setor na região Norte e Centro, expandindo a nossa oferta para que, independentemente do desafio, a resposta continue a ser encontrada na JRS Ferros.
+            Olhamos para o futuro com a ambição de continuar a ser uma referência no setor na região Norte e Centro, expandindo a nossa oferta para que, independentemente do desafio, a resposta seja encontrada na JRS Ferros.
           </p>
         </div>
 

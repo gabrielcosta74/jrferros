@@ -4,6 +4,7 @@ import { Menu, X, Phone, Mail } from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
 import { cn } from '@/src/lib/utils';
 import { COMPANY_INFO } from '@/src/constants';
+import { BrandLogo } from '@/src/components/layout/BrandLogo';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,20 +36,11 @@ export function Header() {
       )}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="h-10 w-10 bg-gradient-to-br from-jrs-green-start to-jrs-green-end rounded-lg flex items-center justify-center text-white font-display font-bold text-xl shadow-sm group-hover:shadow-md transition-all">
-            JRS
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display font-bold text-xl leading-none tracking-tight text-jrs-black">
-              JRS FERROS
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-slate-500 font-medium">
-              Comércio de Ferro
-            </span>
-          </div>
-        </Link>
+        <BrandLogo
+          imageClassName="h-11 w-11 rounded-md"
+          labelClassName="text-jrs-black"
+          taglineClassName="text-slate-500"
+        />
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">

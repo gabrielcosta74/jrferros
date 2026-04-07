@@ -55,8 +55,8 @@ export function HeroAbout() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white tracking-tight leading-none mb-8 drop-shadow-lg"
           >
-            Mais de <span className="text-transparent bg-clip-text bg-gradient-to-r from-jrs-green-start to-white">50 Anos</span><br />
-            de Resiliência
+            Mais de <span className="text-transparent bg-clip-text bg-gradient-to-r from-jrs-green-start to-white">50 anos</span><br />
+            de Qualidade com Tradição
           </motion.h1>
           
           <motion.p 

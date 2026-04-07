@@ -9,6 +9,10 @@ const GALLERY_IMAGES = [
     { src: '/imagensferros/ferrospiledup.jpeg', alt: 'Stock de Barras', span: 'col-span-1 row-span-2' },
     { src: '/imagensferros/maquinadeferros.jpeg', alt: 'Máquina de Corte', span: 'col-span-1 row-span-1' },
     { src: '/imagensferros/ferrosroda.jpeg', alt: 'Bobines de Ferro', span: 'col-span-2 row-span-1' },
+    { src: '/imagensferros/workplace.jpeg', alt: 'Zona de Trabalho', span: 'col-span-1 row-span-1' },
+    { src: '/imagensferros/companyfromoutsideview.jpeg', alt: 'Exterior das Instalações', span: 'col-span-1 row-span-1' },
+    { src: '/imagensferros/workplace2.jpeg', alt: 'Armazém e Operações', span: 'col-span-1 row-span-1' },
+    { src: '/imagensferros/workplaceniceshot.jpeg', alt: 'Vista Geral do Armazém', span: 'col-span-1 row-span-1' },
 ];
 
 export function ImageGallery() {

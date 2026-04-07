@@ -75,10 +75,10 @@ export function Contact() {
                   <div>
                     <h3 className="font-display font-bold text-lg mb-1">Morada</h3>
                     <p className="text-slate-600 text-sm leading-relaxed">
-                      {COMPANY_INFO.address}
+                      {COMPANY_INFO.addressDisplay}
                     </p>
                     <a
-                      href="https://maps.google.com"
+                      href={COMPANY_INFO.mapsUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs text-jrs-green-start font-medium hover:underline mt-2 inline-block"
@@ -124,11 +124,9 @@ export function Contact() {
                   <div>
                     <h3 className="font-display font-bold text-lg mb-1">Horário</h3>
                     <p className="text-slate-600 text-sm">
-                      Segunda a Sexta: 08:30 - 12:30 / 14:00 - 18:00
+                      Segunda a Sexta: 08:00 - 12:30 / 14:00 - 18:00
                     </p>
-                    <p className="text-slate-600 text-sm">
-                      Sábado: 08:30 - 12:30
-                    </p>
+                    <p className="text-slate-600 text-sm">Encerrado ao sábado e domingo</p>
                   </div>
                 </div>
               </CardContent>

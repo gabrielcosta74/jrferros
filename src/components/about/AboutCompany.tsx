@@ -23,7 +23,7 @@ export function AboutCompany() {
               className="rounded-lg shadow-2xl w-full object-cover aspect-[4/3]"
             />
             <div className="absolute bottom-8 left-8 bg-white p-6 rounded-lg shadow-xl max-w-xs hidden md:block">
-              <p className="font-display font-bold text-xl text-jrs-black mb-1">"Qualidade não é opção"</p>
+              <p className="font-display font-bold text-xl text-jrs-black mb-1">Qualidade com Tradição</p>
               <p className="text-sm text-slate-500">É o nosso compromisso em cada entrega.</p>
             </div>
           </motion.div>
@@ -36,20 +36,20 @@ export function AboutCompany() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-sm font-bold text-jrs-green-start uppercase tracking-widest mb-2">Sobre a JRS Ferros</h2>
+              <h2 className="text-sm font-bold text-jrs-green-start uppercase tracking-widest mb-2">JRS Ferros</h2>
               <h3 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-jrs-black mb-6">
                 Mais do que um fornecedor, um parceiro para a sua obra.
               </h3>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Com décadas de experiência no setor metalúrgico, a JRS Ferros destaca-se pela qualidade superior dos materiais e pelo atendimento personalizado. Entendemos as necessidades da construção civil e da serralharia moderna.
+                Na JRS Ferros, décadas de experiência no setor metalúrgico traduzem-se numa oferta vasta e entregas rápidas e flexíveis. Mais do que fornecedores, somos parceiros da construção civil e da serralharia, com um atendimento humano focado nas necessidades reais de cada obra.
               </p>
             </div>
 
             <div className="space-y-4">
               {[
                 { title: "Certificação de Qualidade", desc: "Todos os materiais cumprem as normas europeias." },
-                { title: "Frota Própria", desc: "Entregas flexíveis adaptadas ao seu cronograma." },
-                { title: "Aconselhamento Técnico", desc: "Equipa especializada para ajudar na escolha certa." }
+                { title: "Vasta Oferta de Artigos", desc: "Soluções à medida para todo o tipo de ocasiões." },
+                { title: "ENTREGAS", desc: "Rápidas e flexíveis." }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <div className="h-6 w-6 rounded-full bg-jrs-green-start/20 flex items-center justify-center text-jrs-green-start shrink-0 mt-1">
