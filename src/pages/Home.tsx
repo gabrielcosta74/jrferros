@@ -10,18 +10,13 @@ import { ImageGallery } from '@/src/components/ui/image-gallery';
 
 // Animation variants for more premium feel
 const fadeUp = {
-  hidden: { opacity: 0, y: 30, scale: 0.95, filter: 'blur(10px)' },
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
     transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 20,
-      mass: 1,
-      duration: 0.8
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1]
     }
   }
 };
@@ -64,7 +59,7 @@ export function Home() {
 
             <motion.p variants={fadeUp} className="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
               O seu parceiro de confiança no comércio de ferro.
-              Stock permanente e entrega rápida na zona do Grande Porto e em Aveiro.
+              Stock permanente e entrega rápida na zona do Grande Porto e Aveiro.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 pt-4 justify-center w-full">
@@ -83,7 +78,7 @@ export function Home() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 1, repeat: Infinity, repeatType: 'reverse', repeatDelay: 0.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-2"
+          className="pointer-events-none absolute bottom-8 left-1/2 z-20 hidden -translate-x-1/2 text-white/50 md:flex flex-col items-center gap-2"
         >
           <span className="text-xs uppercase tracking-widest">Scroll</span>
           <div className="w-[1px] h-12 bg-gradient-to-b from-white/0 via-white/50 to-white/0" />
@@ -104,7 +99,7 @@ export function Home() {
               { label: "Anos de Experiência", value: "+50", icon: TrendingUp },
               { label: "Artigos em Stock", value: "+750", icon: Package },
               { label: "Clientes Satisfeitos", value: "+7000", icon: ShieldCheck },
-              { label: "Entregas com Frota Própria", value: "Entregas", icon: Truck },
+              { label: "Rápidas e Flexíveis", value: "Entregas", icon: Truck },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -154,7 +149,7 @@ export function Home() {
             {CATALOG.map((category) => {
               return (
               <motion.div key={category.id} variants={fadeUp}>
-                <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl relative">
+                <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl relative cursor-pointer">
                   <Link
                     to="/produtos"
                     className="absolute inset-0 z-10"
@@ -179,12 +174,6 @@ export function Home() {
                     </div>
                     <h3 className="text-xl font-display font-bold mb-2 group-hover:text-jrs-green-start transition-colors duration-300 pr-6">{category.name}</h3>
                     <p className="text-slate-600 text-sm line-clamp-2 mb-4 flex-1">{category.description}</p>
-                    <div className="pt-4 border-t border-slate-100 flex flex-wrap gap-1.5 items-center">
-                        <span className="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-semibold">
-                          {category.subcategories.length} tipos
-                        </span>
-                        <span className="text-xs text-slate-400">em stock</span>
-                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -226,10 +215,10 @@ export function Home() {
             ].map((cat, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: i * 0.15, duration: 0.7, type: "spring", stiffness: 80 }}
+                transition={{ delay: i * 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className="group relative h-[450px] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
               >
                 <img

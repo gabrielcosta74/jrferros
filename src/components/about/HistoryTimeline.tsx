@@ -106,7 +106,7 @@ function TimelineEvent({ item }: { item: typeof historyTimeline[0] }) {
         initial={{ scale: 0, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
         viewport={{ once: true, margin: "-200px" }}
-        transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="absolute left-6 md:left-1/2 w-4 h-4 bg-jrs-black border-2 border-jrs-green-start rounded-full md:-translate-x-1/2 z-20 shadow-[0_0_15px_rgba(34,197,94,0.4)]"
       />
 

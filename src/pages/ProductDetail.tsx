@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -31,8 +31,8 @@ import {
 
 // ── Animations ────────────────────────────────────────────────────────────────
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 90, damping: 18 } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 
 // ── Spec tile ─────────────────────────────────────────────────────────────────
@@ -55,7 +55,7 @@ function SpecTile({ label, value, icon }: { label: string; value: string | null;
 // ── Related product card ───────────────────────────────────────────────────────
 function RelatedCard({ sub }: { sub: SubCategory & { categoryId: string; categoryName: string } }) {
   return (
-    <Link to={`/produtos/${sub.categoryId}/${sub.id}`} className="flex-shrink-0 w-48 group">
+    <Link to={`/produtos/${sub.categoryId}/${sub.id}`} className="flex-shrink-0 w-48 group cursor-pointer">
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 hover:border-jrs-green-start/40">
         {sub.noPhoto ? (
           <div className="h-32 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
@@ -141,7 +141,7 @@ export function ProductDetail() {
       {/* pb-24 prevents content from hiding behind floating action bar on mobile */}
 
       {/* ── Sticky breadcrumb ── */}
-      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-[72px] z-30">
+      <div className="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-[61px] z-30">
         <div className="container px-4 md:px-6 py-3.5 flex items-center gap-2 text-sm text-slate-500 overflow-x-auto scrollbar-hide">
           <Link to="/produtos" className="hover:text-jrs-green-start transition-colors font-semibold whitespace-nowrap">
             Catálogo
@@ -388,7 +388,7 @@ export function ProductDetail() {
                 initial={{ y: 150, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 150, opacity: 0 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="fixed bottom-0 left-0 flex justify-center right-0 z-50 p-4 md:p-6 pointer-events-none"
             >
                 <div className="bg-white/90 backdrop-blur-xl border border-slate-200/50 shadow-[0_-10px_40px_rgba(0,0,0,0.08)] rounded-2xl w-full max-w-4xl p-4 md:p-5 flex flex-col md:flex-row items-center justify-between gap-4 pointer-events-auto">

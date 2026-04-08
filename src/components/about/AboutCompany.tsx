@@ -49,7 +49,7 @@ export function AboutCompany() {
               {[
                 { title: "Certificação de Qualidade", desc: "Todos os materiais cumprem as normas europeias." },
                 { title: "Vasta Oferta de Artigos", desc: "Soluções à medida para todo o tipo de ocasiões." },
-                { title: "ENTREGAS", desc: "Rápidas e flexíveis." }
+                { title: "Entregas Rápidas e Flexíveis", desc: "Frota própria para garantir que a sua obra não para." }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <div className="h-6 w-6 rounded-full bg-jrs-green-start/20 flex items-center justify-center text-jrs-green-start shrink-0 mt-1">

@@ -13,6 +13,7 @@ const GALLERY_IMAGES = [
     { src: '/imagensferros/companyfromoutsideview.jpeg', alt: 'Exterior das Instalações', span: 'col-span-1 row-span-1' },
     { src: '/imagensferros/workplace2.jpeg', alt: 'Armazém e Operações', span: 'col-span-1 row-span-1' },
     { src: '/imagensferros/workplaceniceshot.jpeg', alt: 'Vista Geral do Armazém', span: 'col-span-1 row-span-1' },
+    { src: '/imagensferros/transportemelhorfoto.jpeg', alt: 'Transporte e Logística', span: 'col-span-1 row-span-1' },
 ];
 
 export function ImageGallery() {
@@ -64,7 +65,7 @@ export function ImageGallery() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                             src={selectedImage}
                             alt="Fullscreen view"
                             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"

@@ -8,13 +8,13 @@ import { Search, ChevronRight, ArrowLeft, Package } from 'lucide-react';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
 import { CATALOG, type ProductCategory, type SubCategory } from '@/src/constants';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
 // ── Animations ────────────────────────────────────────────────────────────────
 const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 90, damping: 18 } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
 };
 const stagger = {
   hidden: { opacity: 0 },
@@ -27,7 +27,7 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
     <motion.button
       variants={fadeUp}
       onClick={onClick}
-      className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 text-left w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-jrs-green-start"
+      className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 text-left w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-jrs-green-start"
     >
       <div className="aspect-[4/3] overflow-hidden bg-slate-100">
         <img
@@ -40,9 +40,6 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
 
       <div className="absolute bottom-0 left-0 right-0 p-5">
-        <p className="text-white/55 text-[10px] font-bold uppercase tracking-widest mb-1">
-          {category.subcategories.length} tipos disponíveis
-        </p>
         <h3 className="text-white text-xl font-display font-bold group-hover:text-jrs-green-start transition-colors duration-300">
           {category.name}
         </h3>
@@ -59,6 +56,7 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
 
 // ── Subcategory card – with photo ─────────────────────────────────────────────
 function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }) {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? sub.sizes : sub.sizes.slice(0, 6);
   const extra = sub.sizes.length - 6;
@@ -71,7 +69,16 @@ function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryN
     <motion.div
       variants={fadeUp}
       layout
-      className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group"
+      className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
+      onClick={() => navigate(sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos')}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate(sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos');
+        }
+      }}
+      role="link"
+      tabIndex={0}
     >
       {/* Image */}
       <div className="aspect-[16/9] overflow-hidden bg-slate-100 relative flex-shrink-0">
@@ -103,7 +110,9 @@ function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryN
 
         <div className="mt-5 pt-4 border-t border-slate-100">
           <Button className="w-full bg-slate-900 hover:bg-jrs-green-start text-white rounded-xl h-10 text-sm font-medium transition-all duration-300 hover:shadow-md hover:-translate-y-0.5" asChild>
-            <Link to={sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos'}>Ver Detalhes</Link>
+            <Link to={sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos'} onClick={(e) => e.stopPropagation()}>
+              Ver Detalhes
+            </Link>
           </Button>
         </div>
       </div>
@@ -113,6 +122,7 @@ function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryN
 
 // ── Compact card (no photo) ───────────────────────────────────────────────────
 function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }) {
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? sub.sizes : sub.sizes.slice(0, 8);
   const extra = sub.sizes.length - 8;
@@ -121,7 +131,16 @@ function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { ca
     <motion.div
       variants={fadeUp}
       layout
-      className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group border border-slate-100"
+      className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group border border-slate-100 cursor-pointer"
+      onClick={() => navigate(sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos')}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigate(sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos');
+        }
+      }}
+      role="link"
+      tabIndex={0}
     >
       {/* Colored top bar */}
       <div className="h-1.5 bg-gradient-to-r from-jrs-green-start to-jrs-green-end" />
@@ -145,7 +164,9 @@ function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { ca
 
         <div className="mt-4 pt-3 border-t border-slate-100">
           <Button className="w-full bg-slate-900 hover:bg-jrs-green-start text-white rounded-xl h-9 text-xs font-medium transition-all duration-300 hover:shadow-md hover:-translate-y-0.5" asChild>
-            <Link to={sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos'}>Ver Detalhes</Link>
+            <Link to={sub.categoryId ? `/produtos/${sub.categoryId}/${sub.id}` : '/contactos'} onClick={(e) => e.stopPropagation()}>
+              Ver Detalhes
+            </Link>
           </Button>
         </div>
       </div>
@@ -175,16 +196,22 @@ function SizeChips({ sizes, visible, extra, expanded, onToggle }: {
         ))}
         {!expanded && extra > 0 && (
           <button
-            onClick={onToggle}
-            className="text-[10px] bg-jrs-green-start/5 text-jrs-green-start px-2 py-0.5 rounded border border-jrs-green-start/20 font-mono font-semibold hover:bg-jrs-green-start/10 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+            className="cursor-pointer text-[10px] bg-jrs-green-start/5 text-jrs-green-start px-2 py-0.5 rounded border border-jrs-green-start/20 font-mono font-semibold hover:bg-jrs-green-start/10 transition-colors"
           >
             +{extra} mais
           </button>
         )}
         {expanded && (
           <button
-            onClick={onToggle}
-            className="text-[10px] text-slate-400 px-2 py-0.5 rounded border border-slate-200/60 font-mono hover:bg-slate-50 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggle();
+            }}
+            className="cursor-pointer text-[10px] text-slate-400 px-2 py-0.5 rounded border border-slate-200/60 font-mono hover:bg-slate-50 transition-colors"
           >
             menos
           </button>
@@ -230,9 +257,9 @@ function GroupedSubcategories({ subcategories, showCategory }: {
         return (
           <motion.section
             key={group}
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 80, damping: 16 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             {label && (
               <div className="flex items-center gap-3 mb-5">
@@ -325,7 +352,7 @@ export function Catalog() {
             <AnimatePresence mode="wait">
               {selectedCategory && !isSearching ? (
                 <motion.div key="bc" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }} className="flex items-center gap-2">
-                  <button onClick={handleBack} className="flex items-center gap-1.5 text-jrs-green-start hover:text-jrs-green-end font-semibold transition-colors">
+                  <button onClick={handleBack} className="flex cursor-pointer items-center gap-1.5 text-jrs-green-start hover:text-jrs-green-end font-semibold transition-colors">
                     <ArrowLeft className="h-4 w-4" /> Todos os Produtos
                   </button>
                   <ChevronRight className="h-3.5 w-3.5 text-slate-300" />
@@ -412,17 +439,17 @@ export function Catalog() {
               {/* Subcategory filter pills */}
               {selectedCategory.subcategories.length > 1 && (
                 <div className="flex overflow-x-auto pb-3 gap-2 mb-8 -mx-4 px-4 scrollbar-hide">
-                  <button
-                    onClick={() => setSelectedSubcategoryId(null)}
-                    className={`whitespace-nowrap flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm ${selectedSubcategoryId === null ? 'bg-jrs-green-start text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
-                  >
-                    Todos ({selectedCategory.subcategories.length})
-                  </button>
+                    <button
+                      onClick={() => setSelectedSubcategoryId(null)}
+                      className={`whitespace-nowrap flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm cursor-pointer ${selectedSubcategoryId === null ? 'bg-jrs-green-start text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                    >
+                      Todos ({selectedCategory.subcategories.length})
+                    </button>
                   {selectedCategory.subcategories.map(sub => (
                     <button
                       key={sub.id}
                       onClick={() => setSelectedSubcategoryId(sub.id === selectedSubcategoryId ? null : sub.id)}
-                      className={`whitespace-nowrap flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm ${selectedSubcategoryId === sub.id ? 'bg-jrs-green-start text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+                      className={`whitespace-nowrap flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm cursor-pointer ${selectedSubcategoryId === sub.id ? 'bg-jrs-green-start text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
                     >
                       {sub.name}
                     </button>
