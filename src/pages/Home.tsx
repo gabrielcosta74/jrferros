@@ -109,7 +109,7 @@ export function Home() {
                 <div className="p-3 rounded-2xl bg-white/5 group-hover:bg-jrs-green-start/20 transition-colors duration-300 mb-2">
                   <stat.icon className="h-6 w-6 text-jrs-green-start opacity-90 group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <span className="text-3xl md:text-5xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400">{stat.value}</span>
+                <span className="pb-1 text-3xl md:text-5xl font-display font-bold leading-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400">{stat.value}</span>
                 <span className="text-sm text-slate-400 uppercase tracking-widest font-medium">{stat.label}</span>
               </motion.div>
             ))}
@@ -151,10 +151,9 @@ export function Home() {
               <motion.div key={category.id} variants={fadeUp}>
                 <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl relative cursor-pointer">
                   <Link
-                    to="/produtos"
+                    to={`/produtos?categoria=${category.id}`}
                     className="absolute inset-0 z-10"
                     aria-label={`Ver ${category.name}`}
-                    onClick={() => { sessionStorage.setItem('catalog-category', category.id); }}
                   />
                   <div className="aspect-[4/3] overflow-hidden relative">
                     <img
@@ -164,9 +163,6 @@ export function Home() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
-                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-jrs-black shadow-md flex items-center gap-1.5">
-                      <span className="text-jrs-green-start">{category.icon}</span> {category.subcategories.length} gamas
-                    </div>
                   </div>
                   <CardContent className="p-6 flex-1 flex flex-col relative">
                     <div className="absolute -top-5 right-6 h-10 w-10 bg-jrs-green-start text-white rounded-full flex items-center justify-center shadow-lg transform translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none">

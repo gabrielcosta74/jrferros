@@ -239,6 +239,11 @@ export function getProductMeta(categoryId: string, subcategoryId: string): Produ
       standardLength: null,
       applications: ['Vedações de propriedades', 'Jardins e parques', 'Obras públicas', 'Perímetros industriais e escolares'],
     };
+    if (subcategoryId === 'arame-recozido') return {
+      material: 'Aço recozido', norm: null, finish: 'Recozido',
+      standardLength: null,
+      applications: ['Amarração de varão', 'Construção civil', 'Cofragens', 'Fixações temporárias'],
+    };
     return { material: 'Conforme especificação', norm: null, finish: 'Conforme especificação', standardLength: null, applications: ['Construção civil'] };
   }
 
@@ -256,6 +261,9 @@ export function getProductMeta(categoryId: string, subcategoryId: string): Produ
     if (subcategoryId === 'rodizios') return { material: 'Aço / Nylon', norm: null, finish: 'Conforme modelo', standardLength: null, applications: ['Portões deslizantes', 'Automação de portões', 'Estruturas móveis'] };
     if (subcategoryId === 'roldanas') return { material: 'Aço / Ferro fundido', norm: null, finish: 'Preto / Com aro', standardLength: null, applications: ['Sistemas de portão', 'Elevação e tração', 'Guias de cabo'] };
     if (subcategoryId === 'eletrodos') return { material: 'Eléctrodo revestido', norm: 'EN ISO 2560', finish: 'Revestido', standardLength: null, applications: ['Soldadura por arco', 'Serralharia', 'Construção metálica', 'Reparações'] };
+    if (subcategoryId === 'grampos') return { material: 'Aço', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Fixações', 'Serralharia', 'Obras e reparações'] };
+    if (subcategoryId === 'pregos') return { material: 'Aço', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Fixações', 'Construção civil', 'Carpintaria de apoio'] };
+    if (subcategoryId === 'pas-de-bico-dkv') return { material: 'Aço / Cabo conforme modelo', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Trabalhos em obra', 'Movimentação de inertes', 'Apoio à construção'] };
     return { material: 'Conforme produto', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Serralharia', 'Construção metálica'] };
   }
 

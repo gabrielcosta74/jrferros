@@ -8,7 +8,7 @@ import { Search, ChevronRight, ArrowLeft, Package } from 'lucide-react';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
 import { CATALOG, type ProductCategory, type SubCategory } from '@/src/constants';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 
 // ── Animations ────────────────────────────────────────────────────────────────
@@ -285,21 +285,21 @@ function GroupedSubcategories({ subcategories, showCategory }: {
 
 // ── Main Catalog page ─────────────────────────────────────────────────────────
 export function Catalog() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get('categoria');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const storedCategoryId = sessionStorage.getItem('catalog-category');
-    if (!storedCategoryId) return;
-
-    const categoryExists = CATALOG.some(category => category.id === storedCategoryId);
-    if (categoryExists) {
-      setSelectedCategoryId(storedCategoryId);
-    }
-
-    sessionStorage.removeItem('catalog-category');
-  }, []);
+    const nextCategoryId = CATALOG.some(category => category.id === categoryParam) ? categoryParam : null;
+    setSelectedCategoryId(prev => {
+      if (prev !== nextCategoryId) {
+        setSelectedSubcategoryId(null);
+      }
+      return nextCategoryId;
+    });
+  }, [categoryParam]);
 
   const selectedCategory = CATALOG.find(c => c.id === selectedCategoryId) ?? null;
   const isSearching = searchTerm.trim().length > 0;
@@ -322,6 +322,11 @@ export function Catalog() {
     if (!selectedCategory) return [];
     const enrich = (s: SubCategory) => ({ ...s, categoryId: selectedCategory.id, categoryName: selectedCategory.name });
     if (selectedSubcategoryId) {
+      if (selectedCategory.id === 'chapas' && selectedSubcategoryId === 'chapa-preta') {
+        return selectedCategory.subcategories
+          .filter(s => s.name.toLowerCase().includes('preta'))
+          .map(enrich);
+      }
       return selectedCategory.subcategories.filter(s => s.id === selectedSubcategoryId).map(enrich);
     }
     return selectedCategory.subcategories.map(enrich);
@@ -331,6 +336,7 @@ export function Catalog() {
     setSelectedCategoryId(id);
     setSelectedSubcategoryId(null);
     setSearchTerm('');
+    setSearchParams({ categoria: id });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -338,6 +344,7 @@ export function Catalog() {
     setSelectedCategoryId(null);
     setSelectedSubcategoryId(null);
     setSearchTerm('');
+    setSearchParams({});
   };
 
   return (

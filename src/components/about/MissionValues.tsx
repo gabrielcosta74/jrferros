@@ -71,6 +71,11 @@ export function MissionValues() {
         </div>
 
         {/* Values 3D Cards */}
+        <div className="text-center mb-12">
+          <span className="text-sm tracking-widest uppercase font-semibold text-jrs-green-start mb-3 block">Valores</span>
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-jrs-black">Os Nossos Valores</h2>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
           {VALUES.map((value, i) => (
             <motion.div

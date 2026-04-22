@@ -148,9 +148,8 @@ export function ProductDetail() {
           </Link>
           <ChevronRight className="h-3.5 w-3.5 text-slate-300 flex-shrink-0" />
           <Link
-            to="/produtos"
+            to={`/produtos?categoria=${categoryId}`}
             className="hover:text-jrs-green-start transition-colors font-semibold whitespace-nowrap"
-            onClick={() => sessionStorage.setItem('catalog-category', categoryId)}
           >
             {category.name}
           </Link>
