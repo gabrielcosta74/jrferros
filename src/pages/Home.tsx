@@ -7,6 +7,7 @@ import { AboutCompany } from '@/src/components/about/AboutCompany';
 import { CATALOG, COMPANY_INFO } from '@/src/constants';
 import { HeroSlider } from '@/src/components/ui/hero-slider';
 import { ImageGallery } from '@/src/components/ui/image-gallery';
+import { ExternalMediaGate } from '@/src/components/legal/CookieConsent';
 
 // Animation variants for more premium feel
 const fadeUp = {
@@ -275,17 +276,19 @@ export function Home() {
               transition={{ duration: 0.8 }}
               className="relative aspect-square md:aspect-video lg:aspect-square w-full rounded-3xl overflow-hidden shadow-2xl border border-slate-200 bg-slate-100"
             >
-              <iframe
-                title="Mapa de Localização JRS Ferros"
-                src="https://maps.google.com/maps?q=Av.+Principal+183,+4535-014+Lourosa,+Portugal&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 grayscale hover:grayscale-0 transition-filter duration-700 ease-in-out"
-              />
+              <ExternalMediaGate serviceName="Google Maps">
+                <iframe
+                  title="Mapa de Localização JRS Ferros"
+                  src="https://maps.google.com/maps?q=Av.+Principal+183,+4535-014+Lourosa,+Portugal&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={true}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 grayscale hover:grayscale-0 transition-filter duration-700 ease-in-out"
+                />
+              </ExternalMediaGate>
             </motion.div>
           </div>
         </div>

@@ -12,6 +12,11 @@ import { Catalog } from '@/src/pages/Catalog';
 import { Contact } from '@/src/pages/Contact';
 import { About } from '@/src/pages/About';
 import { ProductDetail } from '@/src/pages/ProductDetail';
+import { PrivacyPolicy } from '@/src/pages/legal/PrivacyPolicy';
+import { CookiePolicy } from '@/src/pages/legal/CookiePolicy';
+import { TermsAndConditions } from '@/src/pages/legal/TermsAndConditions';
+import { DisputeResolution } from '@/src/pages/legal/DisputeResolution';
+import { CookieConsentBanner } from '@/src/components/legal/CookieConsent';
 
 export default function App() {
   return (
@@ -26,9 +31,14 @@ export default function App() {
             <Route path="/produtos" element={<Catalog />} />
             <Route path="/contactos" element={<Contact />} />
             <Route path="/produtos/:categoryId/:subcategoryId" element={<ProductDetail />} />
+            <Route path="/privacidade" element={<PrivacyPolicy />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
+            <Route path="/termos" element={<TermsAndConditions />} />
+            <Route path="/resolucao-litigios" element={<DisputeResolution />} />
           </Routes>
         </main>
         <Footer />
+        <CookieConsentBanner />
       </div>
     </Router>
   );

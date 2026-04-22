@@ -99,9 +99,11 @@ export function Footer() {
           <p className="text-xs text-slate-500">
             &copy; {currentYear} {COMPANY_INFO.name}. Todos os direitos reservados.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className="text-xs text-slate-500 hover:text-white transition-colors">Política de Privacidade</a>
-            <a href="#" className="text-xs text-slate-500 hover:text-white transition-colors">Termos e Condições</a>
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+            <Link to="/privacidade" className="text-xs text-slate-500 hover:text-white transition-colors">Privacidade</Link>
+            <Link to="/cookies" className="text-xs text-slate-500 hover:text-white transition-colors">Cookies</Link>
+            <Link to="/termos" className="text-xs text-slate-500 hover:text-white transition-colors">Termos</Link>
+            <Link to="/resolucao-litigios" className="text-xs text-slate-500 hover:text-white transition-colors">Livro de Reclamações e RAL</Link>
           </div>
         </div>
       </div>

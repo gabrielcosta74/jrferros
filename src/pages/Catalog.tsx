@@ -21,6 +21,15 @@ const stagger = {
   visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
 };
 
+const CHAPA_FILTERS = [
+  { id: 'chapa-preta', label: 'Chapa Preta', match: (sub: SubCategory) => sub.name.toLowerCase().includes('preta') },
+  { id: 'chapas-galvanizadas', label: 'Galvanizadas', match: (sub: SubCategory) => sub.name.toLowerCase().includes('galvanizada') },
+  { id: 'chapas-zinco-zincor', label: 'Zincor / Zinco', match: (sub: SubCategory) => {
+    const name = sub.name.toLowerCase();
+    return name.includes('zincor') || name.includes('zinco');
+  } },
+];
+
 // ── Category overview card ────────────────────────────────────────────────────
 function CategoryCard({ category, onClick }: { category: ProductCategory; onClick: () => void }) {
   return (
@@ -322,10 +331,11 @@ export function Catalog() {
     if (!selectedCategory) return [];
     const enrich = (s: SubCategory) => ({ ...s, categoryId: selectedCategory.id, categoryName: selectedCategory.name });
     if (selectedSubcategoryId) {
-      if (selectedCategory.id === 'chapas' && selectedSubcategoryId === 'chapa-preta') {
-        return selectedCategory.subcategories
-          .filter(s => s.name.toLowerCase().includes('preta'))
-          .map(enrich);
+      if (selectedCategory.id === 'chapas') {
+        const chapaFilter = CHAPA_FILTERS.find(filter => filter.id === selectedSubcategoryId);
+        if (chapaFilter) {
+          return selectedCategory.subcategories.filter(chapaFilter.match).map(enrich);
+        }
       }
       return selectedCategory.subcategories.filter(s => s.id === selectedSubcategoryId).map(enrich);
     }
@@ -452,13 +462,13 @@ export function Catalog() {
                     >
                       Todos ({selectedCategory.subcategories.length})
                     </button>
-                  {selectedCategory.subcategories.map(sub => (
+                  {(selectedCategory.id === 'chapas' ? CHAPA_FILTERS : selectedCategory.subcategories).map(sub => (
                     <button
                       key={sub.id}
                       onClick={() => setSelectedSubcategoryId(sub.id === selectedSubcategoryId ? null : sub.id)}
                       className={`whitespace-nowrap flex-shrink-0 px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm cursor-pointer ${selectedSubcategoryId === sub.id ? 'bg-jrs-green-start text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
                     >
-                      {sub.name}
+                      {'label' in sub ? sub.label : sub.name}
                     </button>
                   ))}
                 </div>
