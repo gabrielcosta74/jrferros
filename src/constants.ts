@@ -675,10 +675,9 @@ export const CATALOG: ProductCategory[] = [
         id: "olhais",
         name: "Olhais",
         description: "Olhais de fixação em diversas dimensões.",
-        image: "/imagensferros/inventoryworkplace.jpeg",
+        image: "/images/olhais.jpeg",
         unit: "un",
         group: "Fixações e Ferragens",
-        noPhoto: true,
         sizes: ["820 — 50×11", "820 — 90×18", "820 — 100×20", "820 — 120×20", "Enrolados 3/8", "Enrolados 5/8"],
       },
       {
