@@ -53,6 +53,12 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/servicos" className="text-sm hover:text-jrs-green-start transition-colors flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-jrs-green-start" />
+                  Serviços
+                </Link>
+              </li>
+              <li>
                 <Link to="/contactos" className="text-sm hover:text-jrs-green-start transition-colors flex items-center gap-2 group">
                   <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-jrs-green-start" />
                   Pedir Orçamento

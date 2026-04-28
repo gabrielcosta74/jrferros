@@ -30,6 +30,21 @@ const CHAPA_FILTERS = [
   } },
 ];
 
+const TUBO_FILTERS = [
+  { id: 'tubos-pretos', label: 'Tubos Pretos', match: (sub: SubCategory) => sub.name.toLowerCase().includes('preto') },
+  { id: 'tubos-galvanizados', label: 'Tubos Galvanizados', match: (sub: SubCategory) => sub.name.toLowerCase().includes('galvanizado') || sub.name.toLowerCase().includes('galv.') },
+  { id: 'tubos-quadrados', label: 'Tubos Quadrados', match: (sub: SubCategory) => sub.name.toLowerCase().includes('quadrado') },
+  { id: 'tubos-retangulares', label: 'Tubos Retangulares', match: (sub: SubCategory) => sub.name.toLowerCase().includes('rectangular') },
+  { id: 'tubos-redondos', label: 'Tubos Redondos', match: (sub: SubCategory) => sub.name.toLowerCase().includes('redondo') },
+  { id: 'tubos-serie-ligeira', label: 'Tubos Série Ligeira', match: (sub: SubCategory) => sub.name.toLowerCase().includes('série ligeira') },
+  { id: 'tubos-serie-media', label: 'Tubos Série Média', match: (sub: SubCategory) => sub.name.toLowerCase().includes('série média') },
+  { id: 'tubos-ft-preto', label: 'Tubos FT (com abas) Preto', match: (sub: SubCategory) => sub.id === 'tubo-ft-preto' },
+  { id: 'tubos-ft-galv', label: 'Tubos FT (com abas) Galvanizado', match: (sub: SubCategory) => sub.id === 'tubo-ft-galv' },
+  { id: 'tubos-calhe-pretos', label: 'Tubos de Calhe Pretos', match: (sub: SubCategory) => sub.id === 'tubo-calhe-preto' },
+  { id: 'tubos-calhe-galv', label: 'Tubos de Calhe Galvanizados', match: (sub: SubCategory) => sub.id === 'tubo-calhe-galv' },
+  { id: 'outros-tubos', label: 'Outros Tubos', match: (sub: SubCategory) => sub.id === 'tubo-corrimao' || sub.id === 'curvas-tubo' },
+];
+
 // ── Category overview card ────────────────────────────────────────────────────
 function CategoryCard({ category, onClick }: { category: ProductCategory; onClick: () => void }) {
   return (
@@ -337,6 +352,12 @@ export function Catalog() {
           return selectedCategory.subcategories.filter(chapaFilter.match).map(enrich);
         }
       }
+      if (selectedCategory.id === 'tubos') {
+        const tuboFilter = TUBO_FILTERS.find(filter => filter.id === selectedSubcategoryId);
+        if (tuboFilter) {
+          return selectedCategory.subcategories.filter(tuboFilter.match).map(enrich);
+        }
+      }
       return selectedCategory.subcategories.filter(s => s.id === selectedSubcategoryId).map(enrich);
     }
     return selectedCategory.subcategories.map(enrich);
@@ -462,7 +483,11 @@ export function Catalog() {
                     >
                       Todos ({selectedCategory.subcategories.length})
                     </button>
-                  {(selectedCategory.id === 'chapas' ? CHAPA_FILTERS : selectedCategory.subcategories).map(sub => (
+                  {(selectedCategory.id === 'chapas'
+                    ? CHAPA_FILTERS
+                    : selectedCategory.id === 'tubos'
+                    ? TUBO_FILTERS
+                    : selectedCategory.subcategories).map(sub => (
                     <button
                       key={sub.id}
                       onClick={() => setSelectedSubcategoryId(sub.id === selectedSubcategoryId ? null : sub.id)}

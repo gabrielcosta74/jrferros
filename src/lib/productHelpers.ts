@@ -134,15 +134,25 @@ export function getProductMeta(categoryId: string, subcategoryId: string): Produ
       standardLength: '6 m',
       applications: ['Redes de gás e água', 'Condutas industriais', 'Sistemas hidráulicos'],
     };
-    if (subcategoryId === 'tubo-ft') return {
-      material: 'Aço com abas', norm: null, finish: 'Preto / Galvanizado',
+    if (subcategoryId === 'tubo-ft-preto') return {
+      material: 'Aço com abas', norm: null, finish: 'Preto',
       standardLength: '6 m',
       applications: ['Sistemas de vedação com painéis', 'Alambrado', 'Campos desportivos', 'Perímetros industriais'],
     };
-    if (subcategoryId === 'tubo-calhe') return {
-      material: 'Aço laminado', norm: null, finish: 'Preto / Galvanizado',
+    if (subcategoryId === 'tubo-ft-galv') return {
+      material: 'Aço com abas', norm: null, finish: 'Galvanizado',
+      standardLength: '6 m',
+      applications: ['Sistemas de vedação com painéis', 'Alambrado exterior', 'Campos desportivos', 'Perímetros industriais'],
+    };
+    if (subcategoryId === 'tubo-calhe-preto') return {
+      material: 'Aço laminado', norm: null, finish: 'Preto',
       standardLength: '6 m',
       applications: ['Portões deslizantes', 'Calhas de guia', 'Sistemas de automação de portões'],
+    };
+    if (subcategoryId === 'tubo-calhe-galv') return {
+      material: 'Aço laminado', norm: null, finish: 'Galvanizado',
+      standardLength: '6 m',
+      applications: ['Portões deslizantes', 'Calhas de guia', 'Sistemas de automação de portões em exterior'],
     };
     if (subcategoryId === 'tubo-corrimao') return {
       material: 'Aço', norm: null, finish: 'Preto',
@@ -194,11 +204,6 @@ export function getProductMeta(categoryId: string, subcategoryId: string): Produ
       standardLength: null,
       applications: ['Coberturas translúcidas', 'Claraboias', 'Marquises e alpendres', 'Paredes e divisórias', 'Estufas'],
     };
-    if (subcategoryId === 'chapa-polida') return {
-      material: 'Aço laminado a frio', norm: 'EN 10130', finish: 'Polido – superfície lisa',
-      standardLength: null,
-      applications: ['Peças de precisão', 'Componentes de maquinaria', 'Indústria automóvel', 'Electrodomésticos'],
-    };
     if (subcategoryId === 'chapa-zinco-vermelha') return {
       material: 'Zinco com pigmento vermelho', norm: null, finish: 'Vermelho',
       standardLength: null,
@@ -219,49 +224,36 @@ export function getProductMeta(categoryId: string, subcategoryId: string): Produ
 
   // Construção Civil
   if (categoryId === 'construcao-civil') {
-    if (subcategoryId === 'varao-betao-a400') return {
-      material: 'Aço A400 NR', norm: 'NP EN 10080', finish: 'Nervurado',
-      standardLength: '12 m',
-      applications: ['Betão armado residencial', 'Fundações', 'Lajes e pilares', 'Muros de suporte', 'Obras correntes'],
-    };
     if (subcategoryId === 'varao-betao-a500') return {
-      material: 'Aço A500 NR', norm: 'NP EN 10080', finish: 'Nervurado',
+      material: 'A500/A400 NR', norm: 'NP EN 10080', finish: 'Nervurado',
       standardLength: '12 m',
-      applications: ['Betão armado de alta resistência', 'Estruturas sísmicas', 'Grandes obras de engenharia civil'],
+      applications: ['Betão armado', 'Fundações', 'Lajes e pilares', 'Muros de suporte', 'Estruturas correntes e reforçadas'],
     };
     if (subcategoryId === 'malhasol') return {
       material: 'Aço electrossoldado', norm: 'NP EN 10080', finish: 'Electrossoldado',
       standardLength: null,
       applications: ['Lajes de pavimento', 'Muros de betão', 'Pré-fabricados', 'Pisos industriais', 'Pavimentos'],
     };
-    if (subcategoryId === 'gradil-galv') return {
-      material: 'Aço galvanizado', norm: 'EN 10223', finish: 'Galvanizado',
-      standardLength: null,
-      applications: ['Vedações de propriedades', 'Jardins e parques', 'Obras públicas', 'Perímetros industriais e escolares'],
-    };
     if (subcategoryId === 'arame-recozido') return {
       material: 'Aço recozido', norm: null, finish: 'Recozido',
       standardLength: null,
       applications: ['Amarração de varão', 'Construção civil', 'Cofragens', 'Fixações temporárias'],
     };
-    return { material: 'Conforme especificação', norm: null, finish: 'Conforme especificação', standardLength: null, applications: ['Construção civil'] };
-  }
-
-  // Vedação e grelhas
-  if (categoryId === 'vedacao-grelhas') {
-    return {
-      material: 'Aço galvanizado', norm: 'EN 124', finish: 'Galvanizado',
+    if (subcategoryId === 'pregos-construcao-civil') return {
+      material: 'Aço', norm: null, finish: 'Conforme produto',
       standardLength: null,
-      applications: ['Sumidouros e caleiras de rua', 'Drenagem urbana', 'Indústria', 'Parques de estacionamento'],
+      applications: ['Fixações em obra', 'Cofragens', 'Construção civil', 'Trabalhos gerais'],
     };
+    return { material: 'Conforme especificação', norm: null, finish: 'Conforme especificação', standardLength: null, applications: ['Construção civil'] };
   }
 
   // Acessórios
   if (categoryId === 'acessorios') {
+    if (subcategoryId === 'gradil-galv') return { material: 'Aço galvanizado', norm: 'EN 10223', finish: 'Galvanizado', standardLength: null, applications: ['Vedações de propriedades', 'Jardins e parques', 'Obras públicas', 'Perímetros industriais e escolares'] };
+    if (subcategoryId === 'grelha-quad-galv' || subcategoryId === 'grelha-transito-ligeiro' || subcategoryId === 'grelha-transito-pesado') return { material: 'Aço galvanizado', norm: 'EN 124', finish: 'Galvanizado', standardLength: null, applications: ['Sumidouros e caleiras de rua', 'Drenagem urbana', 'Indústria', 'Parques de estacionamento'] };
     if (subcategoryId === 'rodizios') return { material: 'Aço / Nylon', norm: null, finish: 'Conforme modelo', standardLength: null, applications: ['Portões deslizantes', 'Automação de portões', 'Estruturas móveis'] };
     if (subcategoryId === 'roldanas') return { material: 'Aço / Ferro fundido', norm: null, finish: 'Preto / Com aro', standardLength: null, applications: ['Sistemas de portão', 'Elevação e tração', 'Guias de cabo'] };
     if (subcategoryId === 'eletrodos') return { material: 'Eléctrodo revestido', norm: 'EN ISO 2560', finish: 'Revestido', standardLength: null, applications: ['Soldadura por arco', 'Serralharia', 'Construção metálica', 'Reparações'] };
-    if (subcategoryId === 'grampos') return { material: 'Aço', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Fixações', 'Serralharia', 'Obras e reparações'] };
     if (subcategoryId === 'pregos') return { material: 'Aço', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Fixações', 'Construção civil', 'Carpintaria de apoio'] };
     if (subcategoryId === 'pas-de-bico-dkv') return { material: 'Aço / Cabo conforme modelo', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Trabalhos em obra', 'Movimentação de inertes', 'Apoio à construção'] };
     return { material: 'Conforme produto', norm: null, finish: 'Conforme produto', standardLength: null, applications: ['Serralharia', 'Construção metálica'] };
@@ -337,9 +329,8 @@ const CROSS_AFFINITY: Record<string, string[]> = {
   barras: ['cantoneiras', 'perfis', 'tubos'],
   cantoneiras: ['barras', 'perfis'],
   chapas: ['tubos', 'barras'],
-  'construcao-civil': ['barras', 'vedacao-grelhas'],
-  'vedacao-grelhas': ['tubos', 'construcao-civil'],
-  acessorios: ['tubos', 'vedacao-grelhas'],
+  'construcao-civil': ['barras', 'acessorios'],
+  acessorios: ['tubos', 'construcao-civil'],
 };
 
 export function getRelatedProducts(

@@ -5,6 +5,7 @@ import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Textarea } from '@/src/components/ui/textarea';
 import { COMPANY_INFO } from '@/src/constants';
+import { submitContactRequest } from '@/src/lib/api';
 
 export function Contact() {
   const [searchParams] = useSearchParams();
@@ -18,17 +19,22 @@ export function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError('');
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    try {
+      await submitContactRequest(formData);
+      setIsSuccess(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Não foi possível enviar o pedido.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -229,6 +235,11 @@ export function Contact() {
                 </div>
 
                 <div>
+                  {submitError && (
+                    <div className="mb-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                      {submitError}
+                    </div>
+                  )}
                   <Button
                     type="submit"
                     size="lg"

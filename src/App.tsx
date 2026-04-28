@@ -12,6 +12,8 @@ import { Catalog } from '@/src/pages/Catalog';
 import { Contact } from '@/src/pages/Contact';
 import { About } from '@/src/pages/About';
 import { ProductDetail } from '@/src/pages/ProductDetail';
+import { Services } from '@/src/pages/Services';
+import { Admin } from '@/src/pages/Admin';
 import { PrivacyPolicy } from '@/src/pages/legal/PrivacyPolicy';
 import { CookiePolicy } from '@/src/pages/legal/CookiePolicy';
 import { TermsAndConditions } from '@/src/pages/legal/TermsAndConditions';
@@ -29,7 +31,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/sobre-nos" element={<About />} />
             <Route path="/produtos" element={<Catalog />} />
+            <Route path="/servicos" element={<Services />} />
             <Route path="/contactos" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/produtos/:categoryId/:subcategoryId" element={<ProductDetail />} />
             <Route path="/privacidade" element={<PrivacyPolicy />} />
             <Route path="/cookies" element={<CookiePolicy />} />

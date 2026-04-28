@@ -23,6 +23,7 @@ export function Header() {
     { name: 'Início', path: '/' },
     { name: 'Sobre Nós', path: '/sobre-nos' },
     { name: 'Produtos', path: '/produtos' },
+    { name: 'Serviços', path: '/servicos' },
     { name: 'Contactos', path: '/contactos' },
   ];
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Truck, ShieldCheck, Package, Phone, TrendingUp, Building2, Hammer, MapPin } from 'lucide-react';
+import { ArrowRight, Truck, ShieldCheck, Package, Phone, TrendingUp, Building2, Hammer, MapPin, Scissors } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent } from '@/src/components/ui/card';
@@ -204,11 +204,12 @@ export function Home() {
             <p className="text-slate-600 text-lg">Soluções específicas para cada tipo de necessidade.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {[
-              { title: "Construção Civil", icon: Building2, img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop", desc: "Varão, Malhas, Estribos" },
-              { title: "Serralharia", icon: Hammer, img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070&auto=format&fit=crop", desc: "Tubos, Cantoneiras, Barras" },
-              { title: "Indústria", icon: Package, img: "/images/industria_metal.png", desc: "Chapas, Vigas, Perfis" },
+              { title: "Construção Civil", icon: Building2, img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop", desc: "Varão, Malhas, Estribos", path: "/produtos" },
+              { title: "Serralharia", icon: Hammer, img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070&auto=format&fit=crop", desc: "Tubos, Cantoneiras, Barras", path: "/produtos" },
+              { title: "Indústria", icon: Package, img: "/images/industria_metal.png", desc: "Chapas, Vigas, Perfis", path: "/produtos" },
+              { title: "Serviços", icon: Scissors, img: "/images/pesagem-servicos.jpeg", desc: "Corte a jato de água e pesagem", path: "/servicos" },
             ].map((cat, i) => (
               <motion.div
                 key={i}
@@ -236,7 +237,7 @@ export function Home() {
                     <span className="border-b border-jrs-green-start pb-1">Ver Produtos</span> <ArrowRight className="ml-2 h-4 w-4 text-jrs-green-start group-hover:translate-x-2 transition-transform duration-500" />
                   </div>
                 </div>
-                <Link to="/produtos" className="absolute inset-0 z-10" />
+                <Link to={cat.path} className="absolute inset-0 z-10" />
               </motion.div>
             ))}
           </div>
