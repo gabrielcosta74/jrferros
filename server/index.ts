@@ -20,6 +20,7 @@ import type {
 const app = express();
 const port = Number(process.env.PORT || 8787);
 const MEDIA_BUCKET = process.env.SUPABASE_MEDIA_BUCKET || 'website-media';
+const SUPABASE_TIMEOUT_MS = Number(process.env.SUPABASE_TIMEOUT_MS || 4500);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const distDir = path.resolve(__dirname, '../dist');
 const publicDir = path.resolve(__dirname, '../public');
@@ -110,16 +111,29 @@ function readBearerToken(req: express.Request) {
 async function supabaseRequest(path: string, init?: RequestInit) {
   const serviceRole = requireEnv(SUPABASE_SERVICE_ROLE, 'SUPABASE_SERVICE_ROLE');
   const baseUrl = requireEnv(supabaseUrl ?? undefined, 'SUPABASE_URL or SUPABASE_PROJECT_ID');
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), SUPABASE_TIMEOUT_MS);
 
-  const response = await fetch(`${baseUrl}${path}`, {
-    ...init,
-    headers: {
-      apikey: serviceRole,
-      Authorization: `Bearer ${serviceRole}`,
-      'Content-Type': 'application/json',
-      ...(init?.headers ?? {}),
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}${path}`, {
+      ...init,
+      signal: controller.signal,
+      headers: {
+        apikey: serviceRole,
+        Authorization: `Bearer ${serviceRole}`,
+        'Content-Type': 'application/json',
+        ...(init?.headers ?? {}),
+      },
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Supabase request timed out after ${SUPABASE_TIMEOUT_MS}ms: ${path}`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!response.ok) {
     const text = await response.text();
@@ -311,6 +325,35 @@ interface ImageVariantRow {
   crop?: unknown;
   width?: number | null;
   height?: number | null;
+}
+
+function staticCatalog(): CmsProductCategory[] {
+  return CATALOG.map((category, categoryIndex) => ({
+    ...category,
+    status: 'active',
+    sortOrder: categoryIndex,
+    gallery: [],
+    subcategories: category.subcategories.map((product, productIndex) => ({
+      ...product,
+      status: 'active',
+      sortOrder: productIndex,
+      material: undefined,
+      finish: undefined,
+      norm: null,
+      standardLength: null,
+      applications: [],
+      gallery: [],
+    })),
+  }));
+}
+
+function staticServices(): CmsServiceItem[] {
+  return SERVICES.map((service, serviceIndex) => ({
+    ...service,
+    status: 'active',
+    sortOrder: serviceIndex,
+    gallery: [],
+  }));
 }
 
 function assertImageMode(value: unknown): CmsImageFitMode {
@@ -585,11 +628,12 @@ app.get('/api/health', (_req, res) => {
 app.get('/api/catalog', async (_req, res) => {
   try {
     const data = await loadCatalog(false);
-    return res.json({ data });
+    return res.json({ data, source: 'cms' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      error: 'Não foi possível carregar o catálogo.',
+    console.error('Falling back to static catalog:', error);
+    return res.json({
+      data: staticCatalog(),
+      source: 'static',
       details: error instanceof Error ? error.message : 'unknown_error',
     });
   }
@@ -598,11 +642,12 @@ app.get('/api/catalog', async (_req, res) => {
 app.get('/api/services', async (_req, res) => {
   try {
     const data = await loadServices(false);
-    return res.json({ data });
+    return res.json({ data, source: 'cms' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      error: 'Não foi possível carregar os serviços.',
+    console.error('Falling back to static services:', error);
+    return res.json({
+      data: staticServices(),
+      source: 'static',
       details: error instanceof Error ? error.message : 'unknown_error',
     });
   }
