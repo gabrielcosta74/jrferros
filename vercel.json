@@ -9,6 +9,14 @@
   },
   "rewrites": [
     {
+      "source": "/api/catalog",
+      "destination": "/api/catalog.json"
+    },
+    {
+      "source": "/api/services",
+      "destination": "/api/services.json"
+    },
+    {
       "source": "/api/admin/(.*)",
       "destination": "/api/index"
     },
