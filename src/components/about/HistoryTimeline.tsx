@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, type FC } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { Calendar, Factory, Store } from 'lucide-react';
 
@@ -95,7 +95,7 @@ export function HistoryTimeline() {
 }
 
 // Separate component for each event to handle its own scroll-triggered reveal
-function TimelineEvent({ item }: { item: typeof historyTimeline[0] }) {
+const TimelineEvent: FC<{ item: typeof historyTimeline[0] }> = ({ item }) => {
   const isRight = item.alignRight;
 
   return (
@@ -149,4 +149,4 @@ function TimelineEvent({ item }: { item: typeof historyTimeline[0] }) {
 
     </div>
   );
-}
+};

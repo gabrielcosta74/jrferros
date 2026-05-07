@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, type FC } from 'react';
 import { Search, ChevronRight, ArrowLeft, Package } from 'lucide-react';
 import { Input } from '@/src/components/ui/input';
 import { Button } from '@/src/components/ui/button';
-import { CATALOG, type ProductCategory, type SubCategory } from '@/src/constants';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { useCatalogData } from '@/src/lib/cmsData';
+import { CmsImage } from '@/src/components/ui/cms-image';
+import type { CmsProductCategory as ProductCategory, CmsSubCategory as SubCategory } from '@/src/types/cms';
 
 // ── Animations ────────────────────────────────────────────────────────────────
 const fadeUp = {
@@ -33,8 +35,6 @@ const CHAPA_FILTERS = [
 const TUBO_FILTERS = [
   { id: 'tubos-pretos', label: 'Tubos Pretos', match: (sub: SubCategory) => sub.name.toLowerCase().includes('preto') },
   { id: 'tubos-galvanizados', label: 'Tubos Galvanizados', match: (sub: SubCategory) => sub.name.toLowerCase().includes('galvanizado') || sub.name.toLowerCase().includes('galv.') },
-  { id: 'tubos-quadrados', label: 'Tubos Quadrados', match: (sub: SubCategory) => sub.name.toLowerCase().includes('quadrado') },
-  { id: 'tubos-retangulares', label: 'Tubos Retangulares', match: (sub: SubCategory) => sub.name.toLowerCase().includes('rectangular') },
   { id: 'tubos-redondos', label: 'Tubos Redondos', match: (sub: SubCategory) => sub.name.toLowerCase().includes('redondo') },
   { id: 'tubos-serie-ligeira', label: 'Tubos Série Ligeira', match: (sub: SubCategory) => sub.name.toLowerCase().includes('série ligeira') },
   { id: 'tubos-serie-media', label: 'Tubos Série Média', match: (sub: SubCategory) => sub.name.toLowerCase().includes('série média') },
@@ -46,7 +46,7 @@ const TUBO_FILTERS = [
 ];
 
 // ── Category overview card ────────────────────────────────────────────────────
-function CategoryCard({ category, onClick }: { category: ProductCategory; onClick: () => void }) {
+const CategoryCard: FC<{ category: ProductCategory; onClick: () => void }> = ({ category, onClick }) => {
   return (
     <motion.button
       variants={fadeUp}
@@ -54,11 +54,12 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
       className="group relative overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-xl transition-all duration-500 text-left w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-jrs-green-start"
     >
       <div className="aspect-[4/3] overflow-hidden bg-slate-100">
-        <img
+        <CmsImage
           src={category.image}
           alt={category.name}
+          meta={category.imageVariantMeta?.category_card}
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          imageClassName="group-hover:scale-110 transition-transform duration-700"
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
@@ -76,10 +77,10 @@ function CategoryCard({ category, onClick }: { category: ProductCategory; onClic
       </div>
     </motion.button>
   );
-}
+};
 
 // ── Subcategory card – with photo ─────────────────────────────────────────────
-function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }) {
+const SubCategoryCard: FC<{ sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }> = ({ sub, showCategory }) => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? sub.sizes : sub.sizes.slice(0, 6);
@@ -106,25 +107,38 @@ function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryN
     >
       {/* Image */}
       <div className="aspect-[16/9] overflow-hidden bg-slate-100 relative flex-shrink-0">
-        <img
+        <CmsImage
           src={sub.image}
           alt={sub.name}
+          meta={sub.imageVariantMeta?.product_card}
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          imageClassName="group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+        <div className="absolute top-3 left-3 flex max-w-[70%] flex-wrap gap-1.5">
+          {showCategory && sub.categoryName && (
+            <span className="bg-jrs-green-start text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
+              {sub.categoryName}
+            </span>
+          )}
+          {sub.group && (
+            <span className="bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-medium px-2.5 py-1 rounded-full shadow-sm">
+              {sub.group}
+            </span>
+          )}
+        </div>
         <span className="absolute top-3 right-3 bg-white/95 backdrop-blur-md text-[10px] font-bold text-slate-600 px-2.5 py-1 rounded-full shadow-sm">
           {sub.unit}
         </span>
-        {showCategory && sub.categoryName && (
-          <span className="absolute top-3 left-3 bg-jrs-green-start text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
-            {sub.categoryName}
-          </span>
-        )}
       </div>
 
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
+        {sub.group && (
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            {sub.group}
+          </p>
+        )}
         <h3 className="text-base font-display font-bold text-slate-900 group-hover:text-jrs-green-start transition-colors duration-300 mb-1.5 leading-snug">
           {sub.name}
         </h3>
@@ -142,10 +156,10 @@ function SubCategoryCard({ sub, showCategory }: { sub: SubCategory & { categoryN
       </div>
     </motion.div>
   );
-}
+};
 
 // ── Compact card (no photo) ───────────────────────────────────────────────────
-function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }) {
+const SubCategoryCardCompact: FC<{ sub: SubCategory & { categoryName?: string; categoryId?: string }; showCategory?: boolean }> = ({ sub, showCategory }) => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const visible = expanded ? sub.sizes : sub.sizes.slice(0, 8);
@@ -171,9 +185,16 @@ function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { ca
 
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="text-base font-display font-bold text-slate-900 group-hover:text-jrs-green-start transition-colors duration-300 leading-snug">
-            {sub.name}
-          </h3>
+          <div>
+            {sub.group && (
+              <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                {sub.group}
+              </p>
+            )}
+            <h3 className="text-base font-display font-bold text-slate-900 group-hover:text-jrs-green-start transition-colors duration-300 leading-snug">
+              {sub.name}
+            </h3>
+          </div>
           <div className="flex flex-col items-end gap-1 flex-shrink-0">
             <span className="text-[10px] bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded-full">{sub.unit}</span>
             {showCategory && sub.categoryName && (
@@ -196,7 +217,7 @@ function SubCategoryCardCompact({ sub, showCategory }: { sub: SubCategory & { ca
       </div>
     </motion.div>
   );
-}
+};
 
 // ── Size chips ────────────────────────────────────────────────────────────────
 function SizeChips({ sizes, visible, extra, expanded, onToggle }: {
@@ -309,6 +330,7 @@ function GroupedSubcategories({ subcategories, showCategory }: {
 
 // ── Main Catalog page ─────────────────────────────────────────────────────────
 export function Catalog() {
+  const { data: catalog, isLoading, error } = useCatalogData();
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('categoria');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
@@ -316,22 +338,22 @@ export function Catalog() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const nextCategoryId = CATALOG.some(category => category.id === categoryParam) ? categoryParam : null;
+    const nextCategoryId = catalog.some(category => category.id === categoryParam) ? categoryParam : null;
     setSelectedCategoryId(prev => {
       if (prev !== nextCategoryId) {
         setSelectedSubcategoryId(null);
       }
       return nextCategoryId;
     });
-  }, [categoryParam]);
+  }, [catalog, categoryParam]);
 
-  const selectedCategory = CATALOG.find(c => c.id === selectedCategoryId) ?? null;
+  const selectedCategory = catalog.find(c => c.id === selectedCategoryId) ?? null;
   const isSearching = searchTerm.trim().length > 0;
 
   const globalSearchResults = useMemo(() => {
     if (!searchTerm.trim()) return null;
     const term = searchTerm.toLowerCase();
-    return CATALOG.flatMap(cat =>
+    return catalog.flatMap(cat =>
       cat.subcategories
         .filter(sub =>
           sub.name.toLowerCase().includes(term) ||
@@ -340,7 +362,7 @@ export function Catalog() {
         )
         .map(sub => ({ ...sub, categoryName: cat.name, categoryId: cat.id }))
     );
-  }, [searchTerm]);
+  }, [catalog, searchTerm]);
 
   const displayedSubcategories = useMemo(() => {
     if (!selectedCategory) return [];
@@ -363,6 +385,11 @@ export function Catalog() {
     return selectedCategory.subcategories.map(enrich);
   }, [selectedCategory, selectedSubcategoryId]);
 
+  const displayedCards = useMemo(() => {
+    if (selectedCategory?.id !== 'tubos') return displayedSubcategories;
+    return displayedSubcategories.map(sub => ({ ...sub, group: undefined }));
+  }, [displayedSubcategories, selectedCategory?.id]);
+
   const handleCategorySelect = (id: string) => {
     setSelectedCategoryId(id);
     setSelectedSubcategoryId(null);
@@ -377,6 +404,30 @@ export function Catalog() {
     setSearchTerm('');
     setSearchParams({});
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-jrs-cream py-20">
+        <div className="container px-4 md:px-6">
+          <div className="rounded-3xl bg-white p-10 text-center text-slate-500 shadow-sm">
+            A carregar catálogo...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-jrs-cream py-20">
+        <div className="container px-4 md:px-6">
+          <div className="rounded-3xl border border-red-200 bg-red-50 p-10 text-center text-red-700">
+            {error}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-jrs-cream py-12">
@@ -462,7 +513,7 @@ export function Catalog() {
         {!isSearching && !selectedCategory && (
           <AnimatePresence mode="wait">
             <motion.div key="overview" variants={stagger} initial="hidden" animate="visible" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {CATALOG.map(cat => (
+              {catalog.map(cat => (
                 <CategoryCard key={cat.id} category={cat} onClick={() => handleCategorySelect(cat.id)} />
               ))}
             </motion.div>
@@ -500,7 +551,7 @@ export function Catalog() {
               )}
 
               {/* Grouped product cards */}
-              <GroupedSubcategories subcategories={displayedSubcategories} />
+              <GroupedSubcategories subcategories={displayedCards} />
 
               {/* Bottom CTA */}
               <motion.div

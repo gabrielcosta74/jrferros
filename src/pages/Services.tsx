@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Gauge, Scissors, ShieldCheck, Clock3 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '@/src/components/ui/button';
-import { SERVICES } from '@/src/constants';
+import { useServicesData } from '@/src/lib/cmsData';
+import { CmsImage } from '@/src/components/ui/cms-image';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -15,6 +16,26 @@ const serviceIcons = {
 } as const;
 
 export function Services() {
+  const { data: services, isLoading, error } = useServicesData();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-20 text-center text-slate-500">
+        A carregar serviços...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-20">
+        <div className="mx-auto max-w-md rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
+          {error}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <section className="relative overflow-hidden bg-slate-950 text-white">
@@ -57,7 +78,7 @@ export function Services() {
           </div>
 
           <div className="space-y-6">
-            {SERVICES.map((service, index) => {
+            {services.map((service, index) => {
               const Icon = serviceIcons[service.id as keyof typeof serviceIcons] ?? ShieldCheck;
 
               return (
@@ -71,10 +92,11 @@ export function Services() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
                     <div className="relative min-h-[280px] bg-slate-100">
-                      <img
+                      <CmsImage
                         src={service.image}
                         alt={service.name}
-                        className="absolute inset-0 h-full w-full object-cover"
+                        meta={service.imageVariantMeta?.service_card}
+                        className="absolute inset-0"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                       <div className="absolute bottom-0 left-0 p-6 md:p-8">

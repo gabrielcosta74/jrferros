@@ -4,10 +4,12 @@ import { motion } from 'motion/react';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent } from '@/src/components/ui/card';
 import { AboutCompany } from '@/src/components/about/AboutCompany';
-import { CATALOG, COMPANY_INFO } from '@/src/constants';
+import { COMPANY_INFO } from '@/src/constants';
+import { useCatalogData } from '@/src/lib/cmsData';
 import { HeroSlider } from '@/src/components/ui/hero-slider';
 import { ImageGallery } from '@/src/components/ui/image-gallery';
 import { ExternalMediaGate } from '@/src/components/legal/CookieConsent';
+import { CmsImage } from '@/src/components/ui/cms-image';
 
 // Animation variants for more premium feel
 const fadeUp = {
@@ -34,6 +36,7 @@ const staggerContainer = {
 };
 
 export function Home() {
+  const { data: catalog, isLoading: isCatalogLoading, error: catalogError } = useCatalogData();
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden">
@@ -147,7 +150,17 @@ export function Home() {
             viewport={{ once: true, margin: "-80px" }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {CATALOG.map((category) => {
+            {isCatalogLoading && (
+              <div className="col-span-full rounded-3xl bg-white p-8 text-center text-slate-500 shadow-sm">
+                A carregar produtos...
+              </div>
+            )}
+            {catalogError && (
+              <div className="col-span-full rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
+                {catalogError}
+              </div>
+            )}
+            {!isCatalogLoading && !catalogError && catalog.map((category) => {
               return (
               <motion.div key={category.id} variants={fadeUp}>
                 <Card className="overflow-hidden group border-none shadow-md hover:shadow-2xl transition-all duration-500 h-full flex flex-col bg-white rounded-2xl relative cursor-pointer">
@@ -157,11 +170,12 @@ export function Home() {
                     aria-label={`Ver ${category.name}`}
                   />
                   <div className="aspect-[4/3] overflow-hidden relative">
-                    <img
+                    <CmsImage
                       src={category.image}
                       alt={category.name}
+                      meta={category.imageVariantMeta?.category_card}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      imageClassName="group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
                   </div>

@@ -47,7 +47,7 @@ export const CATALOG: ProductCategory[] = [
     name: "Barras de Aço",
     icon: "━",
     description: "Barras de aço maciças em diversas secções e medidas.",
-    image: "/imagensferros/ferroscilindercloseup.jpeg",
+    image: "/images/barra-quadrada.jpeg",
     subcategories: [
       {
         id: "barra-quadrada",
@@ -123,7 +123,7 @@ export const CATALOG: ProductCategory[] = [
     name: "Perfis Estruturais",
     icon: "I",
     description: "Vigas e perfis laminados a quente para estruturas metálicas.",
-    image: "/imagensferros/piledstacks.jpeg",
+    image: "/images/perfil-ipe.jpeg",
     subcategories: [
       {
         id: "hea",
@@ -153,7 +153,7 @@ export const CATALOG: ProductCategory[] = [
         id: "ipn",
         name: "Ferro IPN",
         description: "Viga em I de aba inclinada. Utilizada em vigas e travessas.",
-        image: "/imagensferros/piledstacks2.jpeg",
+        image: "/imagensferros/ferrosinventory.jpeg",
         unit: "kg",
         sizes: ["IPN 100", "IPN 140", "IPN 160", "IPN 180", "IPN 200", "IPN 220", "IPN 240", "IPN 260", "IPN 280", "IPN 320", "IPN 360"],
       },
@@ -172,7 +172,7 @@ export const CATALOG: ProductCategory[] = [
     name: "Cantoneiras",
     icon: "L",
     description: "Cantoneiras de aço iguais e desiguais para construção e serralharia.",
-    image: "/imagensferros/ferroscloseup5.jpeg",
+    image: "/images/cantoneiras-de-abas-iguais.jpeg",
     subcategories: [
       {
         id: "cantoneira-igual",
@@ -387,7 +387,7 @@ export const CATALOG: ProductCategory[] = [
         id: "tubo-ft-galv",
         name: "Tubo FT (com Abas) Galvanizado",
         description: "Tubo FT galvanizado com abas para fixação, indicado para aplicações exteriores e vedações.",
-        image: "/images/tubo-ft-com-abas.jpeg",
+        image: "/images/tubo-ft-&-barra-u.jpeg",
         unit: "mt",
         group: "Tubos FT (com abas) Galvanizado",
         sizes: [
@@ -448,7 +448,7 @@ export const CATALOG: ProductCategory[] = [
     name: "Chapas",
     icon: "▬",
     description: "Chapas de aço, galvanizadas, onduladas, xadrez, zincor e fibra de vidro.",
-    image: "/produtos/chapas.png",
+    image: "/images/chapa-preta.jpeg",
     subcategories: [
       {
         id: "chapa-preta",
@@ -502,9 +502,8 @@ export const CATALOG: ProductCategory[] = [
         id: "chapa-zinco-vermelha",
         name: "Chapa Zinco Vermelha",
         description: "Chapa de zinco com acabamento vermelho para coberturas decorativas.",
-        image: "/imagensferros/ferrospiledup.jpeg",
+        image: "/images/chapa-trapezoidal.jpeg",
         unit: "kg",
-        noPhoto: true,
         sizes: ["3 m", "4 m", "5 m", "6 m"],
       },
       {
@@ -587,7 +586,7 @@ export const CATALOG: ProductCategory[] = [
     name: "Acessórios e Ferragens",
     icon: "⚙",
     description: "Rodízios, roldanas, tampas, grelhas, fixações e outros acessórios para serralharia.",
-    image: "/imagensferros/inventoryworkplace.jpeg",
+    image: "/images/fechaduras.jpeg",
     subcategories: [
       {
         id: "gradil-galv",
@@ -629,7 +628,7 @@ export const CATALOG: ProductCategory[] = [
         id: "rodizios",
         name: "Rodízios",
         description: "Rodízios para portões, grades e estruturas deslizantes.",
-        image: "/imagensferros/inventoryworkplace.jpeg",
+        image: "/images/guias-de-nylon.jpeg",
         unit: "un",
         group: "Portões e Vedação",
         sizes: [
@@ -643,10 +642,9 @@ export const CATALOG: ProductCategory[] = [
         id: "roldanas",
         name: "Roldanas",
         description: "Roldanas com e sem aro para sistemas de portões e guias.",
-        image: "/imagensferros/inventoryworkplace.jpeg",
+        image: "/images/roldana-com-aro.jpeg",
         unit: "un",
         group: "Portões e Vedação",
-        noPhoto: true,
         sizes: [
           "Ø60 sem aro",
           "Ø75 com aro", "Ø75 sem aro",
@@ -659,10 +657,9 @@ export const CATALOG: ProductCategory[] = [
         id: "tampas",
         name: "Tampas",
         description: "Tampas de fecho para tubos quadrados, rectangulares e redondos.",
-        image: "/imagensferros/inventoryworkplace.jpeg",
+        image: "/images/tampasestrada.jpeg",
         unit: "un",
         group: "Portões e Vedação",
-        noPhoto: true,
         sizes: [
           "Encher Galv. 40×40×5", "Encher Galv. 40×40×7,5",
           "Encher Galv. 50×50×5", "Encher Galv. 50×50×7,5",
@@ -684,10 +681,9 @@ export const CATALOG: ProductCategory[] = [
         id: "carros-portao",
         name: "Carros para Portão",
         description: "Carros de deslizamento para portões corredores duplos e simples.",
-        image: "/imagensferros/inventoryworkplace.jpeg",
+        image: "/images/guias-de-nylon.jpeg",
         unit: "un",
         group: "Portões e Vedação",
-        noPhoto: true,
         sizes: ["Duplos — 10", "Simples — 12", "Simples Pequenos"],
       },
       {
@@ -787,9 +783,9 @@ export const SERVICES: ServiceItem[] = [
   {
     id: "bascula-pesagem",
     name: "Báscula para Pesagem",
-    description: "Serviço de pesagem em báscula para cargas, viaturas e materiais, com apoio ao controlo logístico e operacional.",
+    description: "Serviço de pesagem em Báscula para viaturas",
     image: "/images/pesagem-servicos.jpeg",
-    priceNote: "Serviço disponível sob consulta",
+    priceNote: "Serviço disponível durante horário de funcionamento da empresa",
     highlight: "Limite de peso: 60000 kg",
   },
 ];

@@ -1,4 +1,4 @@
-import { CATALOG, type SubCategory, type ProductCategory } from '@/src/constants';
+import type { CmsProductCategory as ProductCategory, CmsSubCategory as SubCategory } from '../types/cms';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -25,17 +25,27 @@ export interface ParsedSizes {
 
 // ── Category / product lookup ─────────────────────────────────────────────────
 
-export function getCategoryById(categoryId: string): ProductCategory | undefined {
-  return CATALOG.find(c => c.id === categoryId);
+export function getCategoryById(catalog: ProductCategory[], categoryId: string): ProductCategory | undefined {
+  return catalog.find(c => c.id === categoryId);
 }
 
-export function getSubcategoryById(categoryId: string, subcategoryId: string): SubCategory | undefined {
-  return getCategoryById(categoryId)?.subcategories.find(s => s.id === subcategoryId);
+export function getSubcategoryById(catalog: ProductCategory[], categoryId: string, subcategoryId: string): SubCategory | undefined {
+  return getCategoryById(catalog, categoryId)?.subcategories.find(s => s.id === subcategoryId);
 }
 
 // ── Product metadata (specs + applications) ───────────────────────────────────
 
-export function getProductMeta(categoryId: string, subcategoryId: string): ProductMeta {
+export function getProductMeta(categoryId: string, subcategoryId: string, product?: SubCategory): ProductMeta {
+  if (product && (product.material || product.finish || product.norm || product.standardLength || product.applications?.length)) {
+    return {
+      material: product.material || 'Conforme especificação',
+      finish: product.finish || 'Conforme especificação',
+      norm: product.norm ?? null,
+      standardLength: product.standardLength ?? null,
+      applications: product.applications ?? [],
+    };
+  }
+
   // Barras
   if (categoryId === 'barras') {
     if (subcategoryId === 'barra-quadrada') return {
@@ -334,19 +344,20 @@ const CROSS_AFFINITY: Record<string, string[]> = {
 };
 
 export function getRelatedProducts(
+  catalog: ProductCategory[],
   categoryId: string,
   subcategoryId: string,
   maxItems = 4
 ): (SubCategory & { categoryId: string; categoryName: string })[] {
   const scored: { sub: SubCategory & { categoryId: string; categoryName: string }; score: number }[] = [];
 
-  const currentCat = getCategoryById(categoryId);
-  const currentSub = getSubcategoryById(categoryId, subcategoryId);
+  const currentCat = getCategoryById(catalog, categoryId);
+  const currentSub = getSubcategoryById(catalog, categoryId, subcategoryId);
   if (!currentCat || !currentSub) return [];
 
   const relatedCategoryIds = CROSS_AFFINITY[categoryId] ?? [];
 
-  for (const cat of CATALOG) {
+  for (const cat of catalog) {
     for (const sub of cat.subcategories) {
       if (sub.id === subcategoryId) continue; // skip self
 

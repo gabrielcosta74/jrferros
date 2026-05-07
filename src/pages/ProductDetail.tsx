@@ -19,7 +19,10 @@ import {
 } from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
 import { motion, AnimatePresence } from 'motion/react';
-import { COMPANY_INFO, type SubCategory } from '@/src/constants';
+import { COMPANY_INFO } from '@/src/constants';
+import { useCatalogData } from '@/src/lib/cmsData';
+import { CmsImage } from '@/src/components/ui/cms-image';
+import type { CmsSubCategory as SubCategory } from '@/src/types/cms';
 import {
   getCategoryById,
   getSubcategoryById,
@@ -64,10 +67,11 @@ function RelatedCard({ sub }: { sub: SubCategory & { categoryId: string; categor
           </div>
         ) : (
           <div className="h-32 overflow-hidden relative">
-            <img
+            <CmsImage
               src={sub.image}
               alt={sub.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              meta={sub.imageVariantMeta?.product_card}
+              imageClassName="group-hover:scale-110 transition-transform duration-700"
             />
              <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-colors" />
           </div>
@@ -86,19 +90,38 @@ function RelatedCard({ sub }: { sub: SubCategory & { categoryId: string; categor
 // ── Main ProductDetail page ───────────────────────────────────────────────────
 export function ProductDetail() {
   const { categoryId = '', subcategoryId = '' } = useParams<{ categoryId: string; subcategoryId: string }>();
+  const { data: catalog, isLoading, error } = useCatalogData();
   
   // Interaction State
   const [selectedBase, setSelectedBase] = useState<string | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<string | null>(null);
 
-  const category = getCategoryById(categoryId);
-  const sub = getSubcategoryById(categoryId, subcategoryId);
+  const category = getCategoryById(catalog, categoryId);
+  const sub = getSubcategoryById(catalog, categoryId, subcategoryId);
 
   // Reset selection when changing product
   useEffect(() => {
     setSelectedBase(null);
     setSelectedVariant(null);
   }, [subcategoryId]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-jrs-cream flex items-center justify-center px-4 text-slate-500">
+        A carregar produto...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-jrs-cream flex items-center justify-center px-4">
+        <div className="max-w-md rounded-3xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   if (!category || !sub) {
     return (
@@ -115,9 +138,13 @@ export function ProductDetail() {
     );
   }
 
-  const meta = getProductMeta(categoryId, subcategoryId);
+  const meta = getProductMeta(categoryId, subcategoryId, sub);
   const parsedSizes = parseSizes(sub.sizes);
-  const related = getRelatedProducts(categoryId, subcategoryId, 6);
+  const related = getRelatedProducts(catalog, categoryId, subcategoryId, 6);
+  const detailImageMeta = sub.imageVariantMeta?.product_detail ?? sub.imageVariantMeta?.product_card;
+  const detailAspectRatio = detailImageMeta?.width && detailImageMeta.height && detailImageMeta.mode !== 'cover'
+    ? `${detailImageMeta.width} / ${detailImageMeta.height}`
+    : undefined;
 
   // Derive final selected dimension text
   let selectedDimensionText = '';
@@ -212,8 +239,8 @@ export function ProductDetail() {
                                  <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 20px)'}} />
                              </div>
                         ) : (
-                            <div className="aspect-[4/3] relative">
-                                <img src={sub.image} alt={sub.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                            <div className="aspect-[4/3] relative" style={{ aspectRatio: detailAspectRatio }}>
+                                <CmsImage src={sub.image} alt={sub.name} meta={detailImageMeta} imageClassName="group-hover:scale-105 transition-transform duration-700" />
                                 <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-2xl" />
                             </div>
                         )}
