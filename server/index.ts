@@ -34,6 +34,7 @@ const entityPlacementsList: CmsImagePlacement[] = [
 app.use(express.json({ limit: '25mb' }));
 
 const {
+  SUPABASE_URL,
   SUPABASE_PROJECT_ID,
   SUPABASE_SERVICE_ROLE,
   ADMIN_USERNAME,
@@ -41,8 +42,10 @@ const {
   ADMIN_SESSION_SECRET,
 } = process.env;
 
-const supabaseUrl = SUPABASE_PROJECT_ID
-  ? `https://${SUPABASE_PROJECT_ID}.supabase.co`
+const supabaseUrl = SUPABASE_URL
+  ? SUPABASE_URL.replace(/\/$/, '')
+  : SUPABASE_PROJECT_ID
+  ? `https://${SUPABASE_PROJECT_ID.replace(/^https?:\/\//, '').replace(/\.supabase\.co\/?$/, '')}.supabase.co`
   : null;
 
 function requireEnv(value: string | undefined, label: string) {
@@ -106,7 +109,7 @@ function readBearerToken(req: express.Request) {
 
 async function supabaseRequest(path: string, init?: RequestInit) {
   const serviceRole = requireEnv(SUPABASE_SERVICE_ROLE, 'SUPABASE_SERVICE_ROLE');
-  const baseUrl = requireEnv(supabaseUrl ?? undefined, 'SUPABASE_PROJECT_ID');
+  const baseUrl = requireEnv(supabaseUrl ?? undefined, 'SUPABASE_URL or SUPABASE_PROJECT_ID');
 
   const response = await fetch(`${baseUrl}${path}`, {
     ...init,
@@ -136,7 +139,7 @@ async function supabaseRequest(path: string, init?: RequestInit) {
 }
 
 function publicStorageUrl(storagePath: string) {
-  const baseUrl = requireEnv(supabaseUrl ?? undefined, 'SUPABASE_PROJECT_ID');
+  const baseUrl = requireEnv(supabaseUrl ?? undefined, 'SUPABASE_URL or SUPABASE_PROJECT_ID');
   return `${baseUrl}/storage/v1/object/public/${MEDIA_BUCKET}/${storagePath}`;
 }
 

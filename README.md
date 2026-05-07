@@ -37,6 +37,7 @@ The Vercel deployment uses `vercel.json`: `/api/*` is handled by the Express app
 Set these environment variables in Vercel before deploying:
 
 - `SUPABASE_PROJECT_ID`
+- `SUPABASE_URL` (optional if `SUPABASE_PROJECT_ID` is set)
 - `SUPABASE_SERVICE_ROLE`
 - `SUPABASE_MEDIA_BUCKET`
 - `ADMIN_USERNAME`
