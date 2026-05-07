@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchCatalog, fetchServices } from '@/src/lib/api';
 import { staticCatalog, staticServices } from '@/src/lib/staticApiData';
 import type { CmsProductCategory, CmsServiceItem } from '@/src/types/cms';
 
@@ -11,22 +12,80 @@ interface AsyncData<T> {
 
 export function useCatalogData(): AsyncData<CmsProductCategory[]> {
   const [data, setData] = useState<CmsProductCategory[]>(() => staticCatalog());
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    setError('');
+
+    fetchCatalog()
+      .then((response) => {
+        if (!cancelled && Array.isArray(response.data)) {
+          setData(response.data);
+        }
+      })
+      .catch((loadError) => {
+        if (!cancelled) {
+          setData(staticCatalog());
+          setError(loadError instanceof Error ? loadError.message : 'Não foi possível carregar o catálogo.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [reloadKey]);
 
   return {
     data,
-    isLoading: false,
-    error: '',
-    reload: () => setData(staticCatalog()),
+    isLoading,
+    error,
+    reload: () => setReloadKey((key) => key + 1),
   };
 }
 
 export function useServicesData(): AsyncData<CmsServiceItem[]> {
   const [data, setData] = useState<CmsServiceItem[]>(() => staticServices());
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    setError('');
+
+    fetchServices()
+      .then((response) => {
+        if (!cancelled && Array.isArray(response.data)) {
+          setData(response.data);
+        }
+      })
+      .catch((loadError) => {
+        if (!cancelled) {
+          setData(staticServices());
+          setError(loadError instanceof Error ? loadError.message : 'Não foi possível carregar os serviços.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [reloadKey]);
 
   return {
     data,
-    isLoading: false,
-    error: '',
-    reload: () => setData(staticServices()),
+    isLoading,
+    error,
+    reload: () => setReloadKey((key) => key + 1),
   };
 }

@@ -10,11 +10,11 @@
   "rewrites": [
     {
       "source": "/api/catalog",
-      "destination": "/api/catalog.json"
+      "destination": "/api/index"
     },
     {
       "source": "/api/services",
-      "destination": "/api/services.json"
+      "destination": "/api/index"
     },
     {
       "source": "/api/admin/login",
