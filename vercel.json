@@ -17,6 +17,10 @@
       "destination": "/api/services.json"
     },
     {
+      "source": "/api/admin/login",
+      "destination": "/api/admin/login"
+    },
+    {
       "source": "/api/admin/(.*)",
       "destination": "/api/index"
     },

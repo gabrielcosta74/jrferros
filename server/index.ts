@@ -4,8 +4,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
-import { CATALOG, SERVICES } from '../src/constants';
-import { getProductMeta } from '../src/lib/productHelpers';
+import { CATALOG, SERVICES } from '../src/constants.ts';
+import { getProductMeta } from '../src/lib/productHelpers.ts';
 import type {
   CmsEntityType,
   CmsImageFitMode,
