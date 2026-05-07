@@ -26,10 +26,25 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
     },
   });
 
-  const data = await response.json().catch(() => null);
+  const rawText = await response.text();
+  let data: unknown = null;
+  if (rawText) {
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      throw new Error(`A API devolveu uma resposta inválida em ${path}: ${rawText.slice(0, 160)}`);
+    }
+  }
 
   if (!response.ok) {
-    throw new Error(data?.error || 'Pedido falhou.');
+    const message = data && typeof data === 'object' && 'error' in data
+      ? String((data as { error?: unknown }).error)
+      : rawText.slice(0, 160) || 'Pedido falhou.';
+    throw new Error(message);
+  }
+
+  if (data === null) {
+    throw new Error(`A API não devolveu dados em ${path}.`);
   }
 
   return data as T;

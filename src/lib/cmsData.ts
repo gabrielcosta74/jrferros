@@ -9,6 +9,14 @@ interface AsyncData<T> {
   reload: () => void;
 }
 
+function readResponseData<T>(response: { data?: T } | null | undefined, fallbackMessage: string): T {
+  if (!response || !Array.isArray(response.data)) {
+    throw new Error(fallbackMessage);
+  }
+
+  return response.data;
+}
+
 export function useCatalogData(): AsyncData<CmsProductCategory[]> {
   const [data, setData] = useState<CmsProductCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +30,7 @@ export function useCatalogData(): AsyncData<CmsProductCategory[]> {
 
     fetchCatalog()
       .then((response) => {
-        if (!cancelled) setData(response.data);
+        if (!cancelled) setData(readResponseData<CmsProductCategory[]>(response, 'Resposta inválida ao carregar o catálogo.'));
       })
       .catch((loadError) => {
         if (!cancelled) {
@@ -60,7 +68,7 @@ export function useServicesData(): AsyncData<CmsServiceItem[]> {
 
     fetchServices()
       .then((response) => {
-        if (!cancelled) setData(response.data);
+        if (!cancelled) setData(readResponseData<CmsServiceItem[]>(response, 'Resposta inválida ao carregar os serviços.'));
       })
       .catch((loadError) => {
         if (!cancelled) {
