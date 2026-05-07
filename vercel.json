@@ -9,7 +9,11 @@
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/admin/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/api/contact-requests",
       "destination": "/api/index"
     },
     {
