@@ -223,7 +223,7 @@ export function Home() {
               { title: "Construção Civil", icon: Building2, img: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2070&auto=format&fit=crop", desc: "Varão, Malhas, Estribos", path: "/produtos" },
               { title: "Serralharia", icon: Hammer, img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2070&auto=format&fit=crop", desc: "Tubos, Cantoneiras, Barras", path: "/produtos" },
               { title: "Indústria", icon: Package, img: "/images/industria_metal.png", desc: "Chapas, Vigas, Perfis", path: "/produtos" },
-              { title: "Serviços", icon: Scissors, img: "/images/pesagem-servicos.jpeg", desc: "Corte a jato de água e pesagem", path: "/servicos" },
+              { title: "Serviços", icon: Scissors, img: "/images/pesagem-servicos-ai.jpeg", desc: "Corte a jato de água e pesagem", path: "/servicos" },
             ].map((cat, i) => (
               <motion.div
                 key={i}

@@ -966,6 +966,13 @@ app.post('/api/admin/cms/images/upload', async (req, res) => {
       }),
     }) as MediaRow[];
 
+    if (entityType === 'product') {
+      await supabaseRequest(`/rest/v1/catalog_products?id=eq.${encodeURIComponent(String(entityId))}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ no_photo: false, updated_at: new Date().toISOString() }),
+      });
+    }
+
     if (replaceId) {
       const imageRows = await supabaseRequest(
         `/rest/v1/entity_images?select=*&id=eq.${replaceId}`
