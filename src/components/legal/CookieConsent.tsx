@@ -67,7 +67,7 @@ export function CookieConsentBanner() {
         <div className="space-y-1">
           <h2 className="font-display text-lg font-bold text-jrs-black">Privacidade e cookies</h2>
           <p className="text-sm leading-relaxed text-slate-600">
-            Usamos apenas armazenamento técnico necessário. Serviços externos, como o Google Maps, só são carregados com a sua autorização.
+            Usamos apenas armazenamento técnico necessário. Serviços externos, como Google Maps e Google Analytics, só são carregados com a sua autorização.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">

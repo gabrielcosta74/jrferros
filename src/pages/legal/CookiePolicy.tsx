@@ -23,7 +23,7 @@ export function CookiePolicy() {
           items={[
             'Armazenamento técnico de preferências: guardamos a sua escolha sobre serviços externos no navegador, para não pedir a mesma decisão em cada visita.',
             'Serviços externos: o Google Maps só é carregado depois de permitir serviços externos. Antes disso, o mapa fica bloqueado.',
-            'Não usamos, nesta versão do website, cookies próprios de analytics, publicidade comportamental ou remarketing.',
+            'Analytics: o Google Analytics só é carregado depois de permitir serviços externos, para medir visitas e interação no website.',
           ]}
         />
       </LegalSection>
@@ -32,7 +32,8 @@ export function CookiePolicy() {
         <p>
           Ao permitir serviços externos, conteúdos de terceiros podem recolher identificadores técnicos, endereço IP,
           dados do navegador e informação de interação, de acordo com as políticas próprias desses fornecedores. O
-          principal serviço externo utilizado no website é o Google Maps, para apresentar a localização da empresa.
+          website utiliza Google Maps, para apresentar a localização da empresa, e Google Analytics, para medição de
+          utilização do website.
         </p>
       </LegalSection>
 

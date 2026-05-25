@@ -19,10 +19,12 @@ import { CookiePolicy } from '@/src/pages/legal/CookiePolicy';
 import { TermsAndConditions } from '@/src/pages/legal/TermsAndConditions';
 import { DisputeResolution } from '@/src/pages/legal/DisputeResolution';
 import { CookieConsentBanner } from '@/src/components/legal/CookieConsent';
+import { GoogleAnalytics } from '@/src/components/legal/GoogleAnalytics';
 
 export default function App() {
   return (
     <Router>
+      <GoogleAnalytics />
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-jrs-cream font-sans text-jrs-black">
         <Header />

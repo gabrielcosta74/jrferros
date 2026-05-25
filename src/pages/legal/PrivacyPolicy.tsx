@@ -36,7 +36,7 @@ export function PrivacyPolicy() {
             'Gerir relações comerciais, encomendas, entregas, faturação e apoio ao cliente, quando exista uma relação contratual ou pré-contratual.',
             'Cumprir obrigações legais, fiscais, contabilísticas e de segurança aplicáveis.',
             'Garantir a segurança, disponibilidade e melhoria técnica do website, com fundamento no interesse legítimo e, quando aplicável, em obrigações legais de segurança.',
-            'Carregar conteúdos externos, como Google Maps, apenas quando exista consentimento para serviços externos.',
+            'Carregar conteúdos externos e analytics, como Google Maps e Google Analytics, apenas quando exista consentimento para serviços externos.',
           ]}
         />
       </LegalSection>
@@ -55,15 +55,15 @@ export function PrivacyPolicy() {
         <p>
           Os dados podem ser tratados por fornecedores técnicos que prestem serviços de alojamento, email, manutenção do
           website ou comunicações, sempre na medida necessária. Quando autoriza o carregamento de conteúdos externos,
-          como Google Maps, esses fornecedores podem tratar dados técnicos de acordo com as suas próprias políticas.
+          como Google Maps e Google Analytics, esses fornecedores podem tratar dados técnicos de acordo com as suas próprias políticas.
         </p>
       </LegalSection>
 
       <LegalSection title="6. Transferências internacionais">
         <p>
           A JRS Ferros procura recorrer a fornecedores com garantias adequadas. Alguns serviços externos, como Google
-          Maps, podem implicar tratamento de dados fora do Espaço Económico Europeu. Nesses casos, o carregamento no
-          website depende do seu consentimento para serviços externos.
+          Maps e Google Analytics, podem implicar tratamento de dados fora do Espaço Económico Europeu. Nesses casos, o
+          carregamento no website depende do seu consentimento para serviços externos.
         </p>
       </LegalSection>
 
