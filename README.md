@@ -44,3 +44,14 @@ Set these environment variables in Vercel before deploying:
 - `ADMIN_PASSWORD`
 - `ADMIN_SESSION_SECRET`
 - `GEMINI_API_KEY` if Gemini features are enabled
+
+### Avisos de novos pedidos por email
+
+Cada pedido submetido no formulário é guardado no Supabase e, de seguida, o servidor envia um aviso organizado para `geral@jrsferros.pt` através do Resend. Configure no ambiente local e na Vercel:
+
+- `RESEND_API_KEY`: chave privada criada no Resend (nunca usar uma variável `VITE_*`)
+- `CONTACT_NOTIFY_TO`: destinatário dos avisos; por defeito, `geral@jrsferros.pt`
+- `CONTACT_NOTIFY_FROM`: remetente num domínio verificado; por exemplo, `JRS Ferros — Pedidos <geral@jrsferros.pt>`
+- `APP_URL`: URL pública do site, usada no link para o painel de administração
+
+Antes de publicar, adicione e verifique o domínio `jrsferros.pt` no Resend, incluindo os registos DNS pedidos (SPF e DKIM). Em testes, enquanto o domínio não estiver verificado, use `JRS Ferros <onboarding@resend.dev>` como remetente. O destinatário permanece `geral@jrsferros.pt`.

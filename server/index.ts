@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import express from 'express';
 import { CATALOG, SERVICES } from '../src/constants.ts';
 import { getProductMeta } from '../src/lib/productHelpers.ts';
+import { sendContactNotification } from './notifications.ts';
 import type {
   CmsEntityType,
   CmsImageFitMode,
@@ -1149,6 +1150,22 @@ app.post('/api/contact-requests', async (req, res) => {
         Prefer: 'return=representation',
       },
       body: JSON.stringify(payload),
+    });
+
+    const savedRequest = Array.isArray(data)
+      ? data[0] as { id?: number; created_at?: string } | undefined
+      : undefined;
+
+    // Aguardar o envio é necessário em serverless. Uma falha no email não
+    // compromete o pedido, que neste ponto já está guardado no Supabase.
+    await sendContactNotification({
+      id: savedRequest?.id,
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      message: payload.message,
+      source: payload.source,
+      createdAt: savedRequest?.created_at,
     });
 
     return res.status(201).json({ success: true, data });
